@@ -1,17 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using DG.Tweening;
 
 public class Stone : MonoBehaviour
 {
+
+
     private Vector3 targetPostion;
+    private Image filer;
     void Start()
     {
         GameObject mainCameraObj = GameObject.FindWithTag("MainCamera");
+        Rigidbody rigid = GetComponent<Rigidbody>();
         targetPostion = mainCameraObj.transform.position + new Vector3(Random.Range(-0.2f, 0.2f), 0, 0);
 
+        filer = GameObject.Find("Filter").GetComponent<Image>();
+
+        transform.GetComponent<Renderer>().material.DOColor(new Color(Random.Range(0,1f), Random.Range(0,1f), Random.Range(0,1f)), 0);
+
         Vector3 v = CalculateInitialVelocity(transform.position, targetPostion, 45f);
-        GetComponent<Rigidbody>().velocity = v;
+        rigid.velocity = v;
+        rigid.angularVelocity = new Vector3( Random.Range(0f, 1f) * 180, Random.Range(0f, 1f) * 180, Random.Range(0f, 1f) * 180);
     }
 
     void Update()
@@ -29,6 +38,15 @@ public class Stone : MonoBehaviour
 
         float vel = Mathf.Sqrt(dist * gravity / Mathf.Sin(2 * a));
         return vel * dir.normalized;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "MainCamera")
+        {
+            filer.DOColor(Color.red, 0);
+            filer.DOFade(0, 1f);
+        }
     }
 }
 
