@@ -5,14 +5,14 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject cubePrefab;
+    private GameObject stonePrefab;
 
     [SerializeField]
-    private Transform cubeSpawnTransform;
+    private Transform stoneSpawnTransform;
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating(nameof(SpawnCube), 3f, 3f);
+        InvokeRepeating(nameof(SpawnStone), 3f, 3f);
     }
 
     // Update is called once per frame
@@ -21,8 +21,8 @@ public class GameManager : MonoBehaviour
         
     }
 
-    void SpawnCube()
+    void SpawnStone()
     {
-        Instantiate(cubePrefab, cubeSpawnTransform);
+        Instantiate(stonePrefab, stoneSpawnTransform);
     }
 }
