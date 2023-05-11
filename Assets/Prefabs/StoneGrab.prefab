@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 3781037038061755276}
   - component: {fileID: 7339239255496091138}
   - component: {fileID: 4210944551659545467}
-  - component: {fileID: 7989179658719952189}
   - component: {fileID: 878591363090586550}
   - component: {fileID: 563696002275679701}
   - component: {fileID: 1140780806479516798}
   - component: {fileID: 7115654968978331209}
+  - component: {fileID: 6053163833595868433}
   m_Layer: 0
   m_Name: StoneGrab
   m_TagString: Untagged
@@ -88,19 +88,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7989179658719952189
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1641139492461932871}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &878591363090586550
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -285,3 +272,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da84a24642077d143b118f7a862a6d43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!135 &6053163833595868433
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1641139492461932871}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
