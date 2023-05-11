@@ -7,18 +7,20 @@ public class Stone : MonoBehaviour
 
 
     private Vector3 targetPostion;
+    private float targetAngle;
     private Image filer;
     void Start()
     {
         GameObject mainCameraObj = GameObject.FindWithTag("MainCamera");
         Rigidbody rigid = GetComponent<Rigidbody>();
         targetPostion = mainCameraObj.transform.position + new Vector3(Random.Range(-0.2f, 0.2f), 0, 0);
+        targetAngle = Random.Range(10f, 80f);
 
         filer = GameObject.Find("Filter").GetComponent<Image>();
 
         transform.GetComponent<Renderer>().material.DOColor(new Color(Random.Range(0,1f), Random.Range(0,1f), Random.Range(0,1f)), 0);
 
-        Vector3 v = CalculateInitialVelocity(transform.position, targetPostion, 45f);
+        Vector3 v = CalculateInitialVelocity(transform.position, targetPostion, targetAngle);
         rigid.velocity = v;
         rigid.angularVelocity = new Vector3( Random.Range(0f, 1f) * 180, Random.Range(0f, 1f) * 180, Random.Range(0f, 1f) * 180);
     }
