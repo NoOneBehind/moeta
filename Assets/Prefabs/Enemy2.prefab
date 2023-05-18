@@ -321,7 +321,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: 52e1db9522e4ad54da7abf28ea0ed365, type: 3}
+  - {fileID: 2100000, guid: 7d8d94f78b3812b4ba5a2f83266dc1d4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -356,7 +356,7 @@ GameObject:
   - component: {fileID: 573177544451925014}
   - component: {fileID: 815191037761779114}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: Enemy2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -410,11 +410,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c77ef67649ad94743804f3f9838bd6c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 30
+  maxHealth: 50
   currentHealth: 0
   stonePrefab: {fileID: 8889545508961941366, guid: 4751f2dfce478924a9d00114a96e8055,
     type: 3}
-  moveSpeed: 9.53
+  moveSpeed: 12
   distance: 20
   attackInterval: 5
   healthBarPrefab: {fileID: 6753931871931596106, guid: 99ef8401d494cb747af08cad37d0dab5,
@@ -497,7 +497,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: 52e1db9522e4ad54da7abf28ea0ed365, type: 3}
+  - {fileID: 2100000, guid: 7d8d94f78b3812b4ba5a2f83266dc1d4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -655,7 +655,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: 52e1db9522e4ad54da7abf28ea0ed365, type: 3}
+  - {fileID: 2100000, guid: 7d8d94f78b3812b4ba5a2f83266dc1d4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

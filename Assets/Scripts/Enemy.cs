@@ -15,6 +15,12 @@ public class Enemy : Health
     [SerializeField]
     float attackInterval = 1f;
 
+    [SerializeField]
+    GameObject healthBarPrefab;
+
+    public Vector3 healthBarOffset = new Vector3(0, 2.5f, 0);
+
+    private HealthBar healthBar;
     private GameObject playerSpawnArea;
     private GameManager gameManager;
 
@@ -29,18 +35,43 @@ public class Enemy : Health
 
         playerSpawnArea = GameObject.Find("PlayerSpawnArea");
 
+        SetHealthBar();
+
         StartCoroutine(StartAction());
+    }
+
+    void SetHealthBar()
+    {
+        Canvas canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+        GameObject healthbarInstance = Instantiate<GameObject>(healthBarPrefab, canvas.transform);
+
+        healthbarInstance.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+        healthBar = healthbarInstance.GetComponent<HealthBar>();
+
+        healthBar.SetMaxHealth(maxHealth);
+        healthBar.SetHealth(maxHealth);
+        healthBar.target = gameObject.transform;
+        healthBar.offset = healthBarOffset;
     }
 
     void OnEnemyDeath()
     {
         gameManager.leftEnemyCount -= 1;
+        healthBar.SetHealth(0);
+
+        if (gameManager.leftEnemyCount == 0)
+        {
+            gameManager.currentLevel += 1;
+            gameManager.LevelStart();
+        }
+
+        Destroy(healthBar.gameObject);
         Destroy(gameObject);
     }
 
     void OnEnemyHealthChanged(int currentHealth)
     {
-        Debug.Log("Enemy's health is changed to " + currentHealth);
+        healthBar.SetHealth(currentHealth);
     }
 
     private IEnumerator StartAction()
@@ -73,6 +104,7 @@ public class Enemy : Health
                 transform.position + Vector3.forward * 2,
                 Quaternion.identity
             );
+            stone.GetComponent<Stone>().Throw(playerSpawnArea.transform.position, 75f);
             yield return new WaitForSeconds(attackInterval);
         }
     }

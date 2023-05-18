@@ -5,22 +5,16 @@ using DG.Tweening;
 public class Stone : MonoBehaviour
 {
     private Vector3 targetPostion;
+    private Rigidbody rigid;
 
-    void Start()
+    void Awake()
     {
-        GameObject mainCameraObj = GameObject.FindWithTag("MainCamera");
-        Rigidbody rigid = GetComponent<Rigidbody>();
-        targetPostion =
-            mainCameraObj.transform.position + new Vector3(Random.Range(-0.2f, 0.2f), 0, 0);
+        rigid = GetComponent<Rigidbody>();
+    }
 
-        transform
-            .GetComponent<Renderer>()
-            .material.DOColor(
-                new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f)),
-                0
-            );
-
-        Vector3 v = CalculateInitialVelocity(transform.position, targetPostion, 80f);
+    public void Throw(Vector3 targetPostion, float angle, float gravity = 9.81f)
+    {
+        Vector3 v = CalculateInitialVelocity(transform.position, targetPostion, angle, gravity);
         rigid.velocity = v;
         rigid.angularVelocity = new Vector3(
             Random.Range(0f, 1f) * 180,

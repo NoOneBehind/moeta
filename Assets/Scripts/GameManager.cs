@@ -60,10 +60,11 @@ public class GameManager : MonoBehaviour
         LevelStart();
     }
 
-    private void LevelStart()
+    public void LevelStart()
     {
         float readyTime = 2f;
 
+        spawnedEnemyCount = 0;
         leftEnemyCount = totalEnemyCount[currentLevel - 1];
         InvokeRepeating(nameof(SpawnEnemy), readyTime, spawnInterval[currentLevel - 1]);
     }
