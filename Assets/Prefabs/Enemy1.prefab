@@ -234,8 +234,6 @@ GameObject:
   - component: {fileID: 1604113092988193170}
   - component: {fileID: 1604113092988193175}
   - component: {fileID: 1604113092988193169}
-  - component: {fileID: 1604113092988193171}
-  - component: {fileID: 1604113092988193172}
   - component: {fileID: 1604113092988193173}
   m_Layer: 0
   m_Name: Enemy1
@@ -323,42 +321,6 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &1604113092988193171
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1910543884003927932}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dd2d5bb8c0acd34aa0ab03c017fcd21, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  moveInterval: 10
-  minimumMoveInterval: 5
-  rotateSpeed: 200
---- !u!114 &1604113092988193172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1910543884003927932}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8cc56b6e426cd642a5ff070b1f11fea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  stonePrefab: {fileID: 1641139492461932871, guid: 74172c63281f96f40a5153a7121cc890,
-    type: 3}
-  attackInterval: 10
-  minimumAttackInterval: 5
-  waitBeforeThrowing: 2
-  waitAfterThrowing: 2
-  rotateSpeed: 200
 --- !u!114 &1604113092988193173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,6 +338,14 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  moveInterval: 10
+  minimumMoveInterval: 5
+  rotateSpeed: 200
+  stonePrefab: {fileID: 0}
+  attackInterval: 10
+  minimumAttackInterval: 5
+  waitBeforeThrowing: 2
+  waitAfterThrowing: 2
 --- !u!1 &2011439231737876705
 GameObject:
   m_ObjectHideFlags: 0
