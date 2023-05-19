@@ -255,6 +255,36 @@ Transform:
   m_Father: {fileID: 1242717351}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &97888077 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1910543884003927932, guid: 185097d1312a74119a0a98fb3d3f566c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1604113092200084912}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &97888083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 97888077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bdf699eeec4fc342b8b5c671536534f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &97888084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 97888077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8a9c9a1307cf6e449c1f713d6bfeb17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &107684304
 GameObject:
   m_ObjectHideFlags: 0
@@ -5479,14 +5509,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 691403478}
-    - target: {fileID: 0}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 691403478}
     - target: {fileID: 1604113092988193173, guid: 185097d1312a74119a0a98fb3d3f566c,
         type: 3}
       propertyPath: stonePrefab

@@ -60,6 +60,14 @@ public class Stone : MonoBehaviour
                 targetHealth.TakeDamage(10);
             }
 
+            // just for collision test
+            if (other.gameObject.tag == "MainCamera")
+            {
+                Image filer = GameObject.Find("Filter").GetComponent<Image>();
+                filer.DOColor(Color.red, 0);
+                filer.DOFade(0, 1f);
+            }
+
             Destroy(gameObject);
         }
     }
