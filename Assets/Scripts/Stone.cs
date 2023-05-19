@@ -34,14 +34,13 @@ public class Stone : MonoBehaviour
         float height = dir.y;
         dir.y = 0;
         float dist = dir.magnitude;
-        float a = angle * Mathf.Deg2Rad;
-        dir.y = dist * Mathf.Tan(a);
-        dist += height / Mathf.Tan(a);
+        float theta = angle * Mathf.Deg2Rad;
+        dir.y = dist * Mathf.Tan(theta);
 
         float vel = Mathf.Sqrt(
             Mathf.Pow(dist, 2)
                 * gravity
-                / (2 * (dist * Mathf.Tan(a) - height) * Mathf.Pow(Mathf.Cos(a), 2))
+                / (2 * (dist * Mathf.Tan(theta) - height) * Mathf.Pow(Mathf.Cos(theta), 2))
         );
         return vel * dir.normalized;
     }
