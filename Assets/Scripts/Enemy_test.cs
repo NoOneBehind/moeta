@@ -64,7 +64,7 @@ public class Enemy_test : MonoBehaviour
         Debug.Log(isMoving);
 
 
-        if (isMoving = false) timeSinceLastMove += Time.deltaTime;
+        if (isMoving == false) timeSinceLastMove += Time.deltaTime;
         if (timeSinceLastMove > minimumMoveInterval)
         {
             float p = Time.deltaTime / revisedMoveInterval; // probabilty for moving per 1 frame
