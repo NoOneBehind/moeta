@@ -23,7 +23,7 @@ public class Stone : MonoBehaviour
         );
     }
 
-    public static Vector3 CalculateInitialVelocity(
+    private static Vector3 CalculateInitialVelocity(
         Vector3 startPoint,
         Vector3 endPoint,
         float angle,

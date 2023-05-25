@@ -29,7 +29,6 @@ public class Moving : MonoBehaviour
                 // When rotating is done
                 if (Mathf.Abs(diffRot.y) < 0.01f)
                 {
-                    Debug.Log("Break moving");
                     yield break;
                 }
             }

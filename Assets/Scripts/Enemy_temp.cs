@@ -69,7 +69,6 @@ public class Enemy_temp : MonoBehaviour
         {
             if (isMovingNext)
             {
-                Debug.Log("Moving to next position");
                 coroutineMove = GetComponent<Moving>().MoveToPoint(movePointPos[currentPoint], rotateSpeed);
                 yield return StartCoroutine(coroutineMove);
                 isMovingNext = false;
@@ -99,15 +98,14 @@ public class Enemy_temp : MonoBehaviour
                 {
                     Vector3 originPos = agent.transform.position;
                     Vector3 throwPos =
-                        originPos + new Vector3(Random.Range(-5.0f, 5.0f), 0, Random.Range(-2.0f, 2.0f));
+                        originPos + new Vector3(5 * (2 * Random.Range(0, 2) - 1), 0, 0)
+                        + new Vector3(Random.Range(-1.0f, 1.0f), 0, Random.Range(-1.0f, 1.0f));
                     
                     // Move to throw position
-                    Debug.Log("Start moving to throw");
                     coroutineMove = GetComponent<Moving>().MoveToPoint(throwPos, rotateSpeed);
                     yield return StartCoroutine(coroutineMove);
 
                     // Wait to throw
-                    Debug.Log("Waiting for throwing");
                     yield return new WaitForSeconds(
                         Random.Range(waitBeforeThrowing - 1.0f, waitBeforeThrowing + 1.0f));
 
@@ -117,16 +115,13 @@ public class Enemy_temp : MonoBehaviour
                     yield return StartCoroutine(coroutineAttack);
 
                     // Wait to return
-                    Debug.Log("Waiting for returning");
                     yield return new WaitForSeconds(
                         Random.Range(waitAfterThrowing - 1.0f, waitAfterThrowing + 1.0f));
                     
                     // Returning to original position
-                    Debug.Log("Start returning to original position");
                     coroutineMove = GetComponent<Moving>().MoveToPoint(originPos, rotateSpeed);
                     yield return StartCoroutine(coroutineMove);
 
-                    Debug.Log("Finished throwing");
                     timeSinceLastAttack = 0f;
                 }
             }
