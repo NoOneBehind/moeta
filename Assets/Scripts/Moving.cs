@@ -6,34 +6,49 @@ public class Moving : MonoBehaviour
     private GameObject player;
     private UnityEngine.AI.NavMeshAgent agent;
 
-    public IEnumerator MoveToPoint(Vector3 movePointPos, float rotateSpeed)
+    private void Awake()
     {
-        player = GameObject.Find("Main Camera");
-        agent = GetComponent<UnityEngine.AI.NavMeshAgent>();     
+        agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+    }
 
+    public IEnumerator MoveToPoint(Vector3 movePointPos)
+    {
         while (true)
         {
             agent.SetDestination(movePointPos);
             Vector3 distance = movePointPos - transform.position;
 
-            // When reached the destination
-            if (agent.velocity.magnitude < 0.01f && distance.magnitude < 1.0f)
+            if (distance.magnitude <= 5f && agent.velocity.magnitude <= 0.01f)
             {
-                // Rotate enemy towards player
-                Vector3 relativePos = player.transform.position - transform.position;
-                Quaternion relativeRot = Quaternion.LookRotation(relativePos);
-                Quaternion currentRot = transform.localRotation;
-                transform.localRotation = Quaternion.RotateTowards(currentRot, relativeRot, rotateSpeed * Time.deltaTime);
-                Quaternion diffRot = Quaternion.Inverse(relativeRot) * currentRot;
-
-                // When rotating is done
-                if (Mathf.Abs(diffRot.y) < 0.01f)
-                {
-                    Debug.Log("Break moving");
-                    yield break;
-                }
+                Debug.Log("done moving");
+                yield break;
             }
-            
+
+            yield return null;
+        }
+    }
+
+    public IEnumerator RotateTowards(Vector3 targetPosition, float rotateSpeed)
+    {
+        while (true)
+        {
+            Vector3 relativePos = targetPosition - transform.position;
+            Quaternion relativeRot = Quaternion.LookRotation(relativePos);
+            Quaternion currentRot = transform.localRotation;
+            transform.localRotation = Quaternion.RotateTowards(
+                currentRot,
+                relativeRot,
+                rotateSpeed * Time.deltaTime
+            );
+            Quaternion diffRot = Quaternion.Inverse(relativeRot) * currentRot;
+
+            // When rotating is done
+            if (Mathf.Abs(diffRot.y) < 0.01f)
+            {
+                Debug.Log("rotating done");
+                yield break;
+            }
+
             yield return null;
         }
     }

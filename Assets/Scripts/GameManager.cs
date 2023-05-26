@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
+using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,9 +24,20 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject[] enemyPrefabs;
 
+    [SerializeField]
+    private GameObject[] enemyMovePointsLevel1;
+
+    [SerializeField]
+    private GameObject[] enemyMovePointsLevel2;
+
+    [SerializeField]
+    private GameObject[] enemyMovePointsLevel3;
+
     public int spawnedEnemyCount;
     public int leftEnemyCount;
     public int currentLevel;
+
+    private Dictionary<GameObject, bool> visitedPointsLevel3 = new Dictionary<GameObject, bool>();
 
     public static GameManager Instance
     {
@@ -62,6 +76,11 @@ public class GameManager : MonoBehaviour
 
     public void LevelStart()
     {
+        foreach (var point in enemyMovePointsLevel3)
+        {
+            visitedPointsLevel3[point] = false;
+        }
+
         float readyTime = 2f;
 
         spawnedEnemyCount = 0;
@@ -71,22 +90,24 @@ public class GameManager : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        float spawnAreaWidth = enemySpawnArea.localScale.x * 10;
-        float spawnAreaHeight = enemySpawnArea.localScale.z * 10;
+        Vector3 spawnPosition = enemySpawnArea.position;
 
-        float randomX = Random.Range(-spawnAreaWidth / 2, spawnAreaWidth / 2);
-        float randomZ = Random.Range(-spawnAreaHeight / 2, spawnAreaHeight / 2);
-
-        Vector3 spawnPosition = enemySpawnArea.position + new Vector3(randomX, 0, randomZ);
-
-        GameObject instance = Instantiate(
+        GameObject enemyInstance = Instantiate(
             enemyPrefabs[currentLevel - 1],
             spawnPosition,
-            Quaternion.identity
+            Quaternion.Euler(0, 180, 0)
         );
+        NavMeshAgent agent = enemyInstance.GetComponent<NavMeshAgent>();
 
-        float prefabHeight = instance.GetComponent<BoxCollider>().bounds.size.y;
-        instance.transform.position += new Vector3(0, prefabHeight / 2, 0);
+        Sequence mySquence = DOTween
+            .Sequence()
+            .Append(enemyInstance.gameObject.transform.DOMoveY(agent.height, 3f))
+            .Join(
+                enemyInstance.gameObject.transform
+                    .DORotate(new Vector3(0, 360 * 2 + 180, 0), 3f, RotateMode.FastBeyond360)
+                    .SetEase(Ease.Linear)
+            )
+            .OnComplete(() => InitEnemyInstance(enemyInstance));
 
         spawnedEnemyCount += 1;
 
@@ -96,8 +117,47 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void InitEnemyInstance(GameObject enemyInstance)
+    {
+        NavMeshAgent agent = enemyInstance.GetComponent<NavMeshAgent>();
+        Enemy_temp enemy = enemyInstance.GetComponent<Enemy_temp>();
+
+        enemy.movePoints.SetValue(GetRandomElement(enemyMovePointsLevel1), 0);
+        enemy.movePoints.SetValue(GetRandomElement(enemyMovePointsLevel2), 1);
+
+        var unvisitedPoint = GetRandomUnvisitedElement(enemyMovePointsLevel3, visitedPointsLevel3);
+        enemy.movePoints.SetValue(unvisitedPoint, 2);
+        visitedPointsLevel3[unvisitedPoint] = true;
+
+        enemy.SetHealthBar();
+        agent.enabled = true;
+        StartCoroutine(enemy.MoveAndAttackLevel1());
+    }
+
     public void GameOver()
     {
         Debug.Log("GameOver");
+    }
+
+    private static T GetRandomElement<T>(T[] array)
+    {
+        int randomIndex = Random.Range(0, array.Length);
+        return array[randomIndex];
+    }
+
+    private static T GetRandomUnvisitedElement<T>(T[] array, Dictionary<T, bool> visitedMap)
+    {
+        var unvisitedElements = array.Where(element => !visitedMap[element]).ToArray();
+        if (unvisitedElements.Length == 0)
+        {
+            foreach (var element in array)
+            {
+                visitedMap[element] = false;
+            }
+            unvisitedElements = array;
+        }
+
+        int randomIndex = Random.Range(0, unvisitedElements.Length);
+        return unvisitedElements[randomIndex];
     }
 }
