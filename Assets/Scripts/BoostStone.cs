@@ -29,7 +29,7 @@ public class BoostStone : Stone
 
         fixedDeltaTime = Time.fixedDeltaTime;
 
-        // filer = GameObject.Find("Filter2").GetComponent<Image>();
+        filer = GameObject.Find("Filter2").GetComponent<Image>();
         cam = GameObject.Find("Main Camera");
 
         StartCoroutine(StoneThrown());
@@ -71,7 +71,7 @@ public class BoostStone : Stone
                 if (isBoosted)
                 {
                     GetComponent<TrailRenderer>().enabled = true;
-                    // filer.DOColor(Color.clear, 0);
+                    filer.DOColor(Color.clear, 0);
                 }
                 yield return new WaitForSeconds(1.0f);
                 GetComponent<Rigidbody>().useGravity = true;
@@ -88,9 +88,9 @@ public class BoostStone : Stone
     private IEnumerator SlowTime()
     {
         // Add filter, Slow time
-        // Image filer = GameObject.Find("Filter2").GetComponent<Image>();
-        // filer.DOColor(new Color(1f, 0.6f, 0f, 0.3f), 0);
-        // filer.DOColor(Color.clear, timeLimit).SetEase(Ease.InOutQuad);
+        Image filer = GameObject.Find("Filter2").GetComponent<Image>();
+        filer.DOColor(new Color(1f, 0.6f, 0f, 0.3f), 0);
+        filer.DOColor(Color.clear, timeLimit).SetEase(Ease.InOutQuad);
 
         Time.timeScale = 0.25f;
         Time.fixedDeltaTime = fixedDeltaTime * Time.timeScale;
