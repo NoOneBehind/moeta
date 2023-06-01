@@ -153,7 +153,15 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        Debug.Log("GameOver");
+        CancelInvoke(nameof(SpawnEnemy));
+
+        StopAllCoroutines();
+
+        gameStateNoticeText.text = "Game Over";
+        Sequence mySquence = DOTween
+            .Sequence()
+            .Append(gameStateNoticeText.DOColor(new Color(1, 0, 0, 0), 0))
+            .Append(gameStateNoticeText.DOFade(1f, 2f).SetEase(Ease.InQuart));
     }
 
     private static T GetRandomElement<T>(T[] array)
