@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
 
 public class Player : Health
 {
@@ -10,6 +11,9 @@ public class Player : Health
     [SerializeField]
     public float throwAngle = 10f;
 
+    [SerializeField]
+    private TextMeshProUGUI healthText;
+
     protected override void Start()
     {
         base.Start();
@@ -17,6 +21,8 @@ public class Player : Health
         OnDeath += OnPlayerDeath;
         OnDeath += GameManager.Instance.GameOver;
         OnHealthChanged += OnPlayerHealthChanged;
+
+        healthText.text = "Player HP : " + currentHealth.ToString();
     }
 
     void Update()
@@ -68,6 +74,6 @@ public class Player : Health
 
     void OnPlayerHealthChanged(int currentHealth)
     {
-        Debug.Log("Player's health is changed to " + currentHealth);
+        healthText.text = "Player HP : " + currentHealth.ToString();
     }
 }

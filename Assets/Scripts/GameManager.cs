@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using DG.Tweening;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -33,8 +34,12 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject[] enemyMovePointsLevel3;
 
+    [SerializeField]
+    private TextMeshProUGUI gameStateNoticeText;
+
     public int spawnedEnemyCount;
     public int leftEnemyCount;
+    public int deadEnemyCount;
     public int currentLevel;
 
     private Dictionary<GameObject, bool> visitedPointsLevel3 = new Dictionary<GameObject, bool>();
@@ -81,10 +86,22 @@ public class GameManager : MonoBehaviour
             visitedPointsLevel3[point] = false;
         }
 
-        float readyTime = 2f;
+        float readyTime = 6f;
+
+        gameStateNoticeText.text = "Level " + currentLevel.ToString();
+        Sequence mySquence = DOTween
+            .Sequence()
+            .Append(gameStateNoticeText.DOColor(new Color(1, 1, 1, 0), 0))
+            .Append(gameStateNoticeText.DOFade(1f, readyTime / 2).SetEase(Ease.InQuart))
+            .AppendInterval(readyTime / 2)
+            .Append(gameStateNoticeText.rectTransform.DOLocalMoveZ(-400f, 2f).SetEase(Ease.InQuart))
+            .Append(gameStateNoticeText.DOFade(0f, 0))
+            .Join(gameStateNoticeText.rectTransform.DOLocalMoveZ(0, 0));
 
         spawnedEnemyCount = 0;
+        deadEnemyCount = 0;
         leftEnemyCount = totalEnemyCount[currentLevel - 1];
+
         InvokeRepeating(nameof(SpawnEnemy), readyTime, spawnInterval[currentLevel - 1]);
     }
 
@@ -101,7 +118,7 @@ public class GameManager : MonoBehaviour
 
         Sequence mySquence = DOTween
             .Sequence()
-            .Append(enemyInstance.gameObject.transform.DOMoveY(agent.height, 3f))
+            .Append(enemyInstance.gameObject.transform.DOMoveY(6f, 3f))
             .Join(
                 enemyInstance.gameObject.transform
                     .DORotate(new Vector3(0, 360 * 2 + 180, 0), 3f, RotateMode.FastBeyond360)
