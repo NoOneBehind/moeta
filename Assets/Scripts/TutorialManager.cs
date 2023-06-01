@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.XR;
+using TMPro;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -12,15 +12,19 @@ public class TutorialManager : MonoBehaviour
     private bool canGrabStone;
     private bool tutorialComplete;
 
+    private TextMeshProUGUI popUpText;
+
     private void Start()
     {
+        popUpText = popUpWindow.GetComponentInChildren<TextMeshProUGUI>();
         Invoke("ShowFirstPopUp", 1f);
     }
 
     private void ShowFirstPopUp()
     {
         popUpWindow.SetActive(true);
-        popUpWindow.GetComponent<PopUpWindow>().SetText("자, 내가 돌을 던져줄 테니 다섯 개만 피해 봐!");
+        popUpText.text = "first text";
+        //popUpText.text = "자, 내가 돌을 던져줄 테니 다섯 개만 피해 봐!";
 
         Invoke("ThrowStone", 5f);
     }
@@ -28,7 +32,8 @@ public class TutorialManager : MonoBehaviour
     private void ShowSecondPopUp()
     {
         popUpWindow.SetActive(true);
-        popUpWindow.GetComponent<PopUpWindow>().SetText("아버지: 잘했다. 이제 바위에 던져! 다섯 개를 맞춰보자!");
+        popUpText.text = "second text";
+        //popUpText.text = "아버지: 잘했다. 이제 바위에 던져! 다섯 개를 맞춰보자!";
 
         canGrabStone = true;
     }
