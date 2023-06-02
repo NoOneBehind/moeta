@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Enemy_temp : Health
 {
-    private GameObject player;
+    protected GameObject player;
 
     [Header("Health Property")]
     [SerializeField]
@@ -18,13 +18,13 @@ public class Enemy_temp : Health
     [Header("Move Property")]
     [SerializeField]
     public GameObject[] movePoints;
-    private Vector3[] movePointPos;
+    protected Vector3[] movePointPos;
 
     [SerializeField]
-    private float minimumMoveInterval = 5f;
+    protected float minimumMoveInterval = 5f;
 
     [SerializeField]
-    private float rotateSpeed = 200f;
+    protected float rotateSpeed = 200f;
 
     [Space(10f)]
     [Header("Attack Property")]
@@ -32,14 +32,14 @@ public class Enemy_temp : Health
     private GameObject stonePrefab;
 
     [SerializeField]
-    private float minimumAttackInterval = 5.0f;
+    protected float minimumAttackInterval = 5.0f;
 
-    private UnityEngine.AI.NavMeshAgent agent;
+    protected UnityEngine.AI.NavMeshAgent agent;
 
-    private Moving moving;
-    private Attacking attacking;
-    private Animator animator;
-    private GameManager gameManager;
+    protected Moving moving;
+    protected Attacking attacking;
+    protected Animator animator;
+    protected GameManager gameManager;
 
     protected override void Start()
     {
@@ -95,7 +95,7 @@ public class Enemy_temp : Health
         }
     }
 
-    void OnEnemyDeath()
+    protected void OnEnemyDeath()
     {
         gameManager.leftEnemyCount -= 1;
         healthBar.SetHealth(0);
@@ -110,7 +110,7 @@ public class Enemy_temp : Health
         Destroy(gameObject);
     }
 
-    void OnEnemyHealthChanged(int currentHealth)
+    protected void OnEnemyHealthChanged(int currentHealth)
     {
         healthBar.SetHealth(currentHealth);
     }

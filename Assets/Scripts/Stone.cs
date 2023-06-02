@@ -4,8 +4,9 @@ using DG.Tweening;
 
 public class Stone : MonoBehaviour
 {
-    private Vector3 targetPostion;
-    private Rigidbody rigid;
+    protected Vector3 targetPostion;
+    protected Rigidbody rigid;
+    protected bool isCollided = false;
 
     void Awake()
     {
@@ -45,8 +46,16 @@ public class Stone : MonoBehaviour
         return vel * dir.normalized;
     }
 
+    public static float CalculateHighestPointTime(Vector3 initialVel, float gravity = 9.81f)
+    {
+        float velY = initialVel.y;
+        return Mathf.Sqrt(2 * velY / gravity);
+    }
+
     private void OnCollisionEnter(Collision other)
     {
+        isCollided = true;
+        
         if (
             other.gameObject.CompareTag("Enemy")
             || other.gameObject.CompareTag("Player")
@@ -68,7 +77,12 @@ public class Stone : MonoBehaviour
                 filer.DOFade(0, 1f);
             }
 
-            Destroy(gameObject);
+            if (!rigid.useGravity)
+            {
+                rigid.useGravity = true;
+            }
+
+            Destroy(gameObject, 5f);
         }
     }
 }

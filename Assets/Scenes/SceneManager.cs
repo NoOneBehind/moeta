@@ -5,11 +5,11 @@ public class SceneManager : MonoBehaviour
 {
     public void LoadTutorialScene()
     {
-        SceneManager.LoadScene("TutorialScene");
+        // SceneManager.LoadScene("TutorialScene");
     }
 
     public void LoadMainScene()
     {
-        SceneManager.LoadScene("MainScene");
+        // SceneManager.LoadScene("MainScene");
     }
 }
