@@ -17,4 +17,16 @@ public class Attacking : MonoBehaviour
         Stone _stone = stone.GetComponent<Stone>();
         _stone.Throw(player.transform.position, throwAngle);
     }
+
+    public void BoostAttack(GameObject boostStonePrefab, float throwAngle)
+    {
+        player = GameObject.Find("Main Camera");
+        GameObject boostStone = Instantiate(
+            boostStonePrefab,
+            transform.position + transform.forward * 3,
+            transform.rotation
+        );
+        BoostStone _boostStone = boostStone.GetComponent<BoostStone>();
+        StartCoroutine(_boostStone.EnemyThrowAndBoost(player.transform.position, throwAngle));        
+    }
 }

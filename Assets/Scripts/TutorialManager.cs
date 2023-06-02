@@ -23,8 +23,7 @@ public class TutorialManager : MonoBehaviour
     private void ShowFirstPopUp()
     {
         popUpWindow.SetActive(true);
-        //popUpText.text = "first text";
-        popUpText.text = "자, 내가 돌을 던져줄 테니 다섯 개만 피해 봐!";
+        // popUpWindow.GetComponent<PopUpWindow>().SetText("자, 내가 돌을 던져줄 테니 다섯 개만 피해 봐!");
 
         Invoke("ThrowStone", 5f);
     }
@@ -32,8 +31,7 @@ public class TutorialManager : MonoBehaviour
     private void ShowSecondPopUp()
     {
         popUpWindow.SetActive(true);
-        //popUpText.text = "second text";
-        popUpText.text = "잘했다. 이제 바위에 던져! 다섯 개를 맞춰보자!";
+        // popUpWindow.GetComponent<PopUpWindow>().SetText("아버지: 잘했다. 이제 바위에 던져! 다섯 개를 맞춰보자!");
 
         canGrabStone = true;
     }

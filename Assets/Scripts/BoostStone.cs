@@ -11,7 +11,7 @@ public class BoostStone : Stone
     [SerializeField]
     private float timeLimit = 2.0f;
     private GameObject rayIneteractController;
-    private ActionBasedController controller;    
+    private ActionBasedController controller;
     private XRRayInteractor rayInteractor;
     private GameObject reticle;
     private float timer = 0f;
@@ -19,7 +19,7 @@ public class BoostStone : Stone
     private bool isBoosted = false;
     private float fixedDeltaTime;
     private Image filer;
-    private GameObject cam;
+    private GameObject player;
 
     public void StartBoost()
     {
@@ -30,7 +30,7 @@ public class BoostStone : Stone
         fixedDeltaTime = Time.fixedDeltaTime;
 
         filer = GameObject.Find("Filter2").GetComponent<Image>();
-        cam = GameObject.Find("Main Camera");
+        player = GameObject.Find("Main Camera");
 
         StartCoroutine(StoneThrown());
     }
@@ -74,12 +74,14 @@ public class BoostStone : Stone
                     filer.DOColor(Color.clear, 0);
                 }
                 yield return new WaitForSeconds(1.0f);
-                GetComponent<Rigidbody>().useGravity = true;
+                rigid.useGravity = true;
                 yield return new WaitForSeconds(2.0f);
                 GetComponent<TrailRenderer>().enabled = false;                
 
                 yield break;
             }
+            
+            if (isCollided) yield break;
 
             yield return null;
         }
@@ -119,7 +121,7 @@ public class BoostStone : Stone
                 Vector3 rayPoint = res.point;
                 Vector3 dir = rayPoint - transform.position;
                 Debug.Log(dir);
-                float distance = (rayPoint - cam.transform.position).magnitude;
+                float distance = (rayPoint - player.transform.position).magnitude;
 
                 // Update reticle position and scale
                 reticle.transform.position = rayPoint;
@@ -136,7 +138,7 @@ public class BoostStone : Stone
                 yield break;
             }
 
-            if (timer >= timeLimit) yield break;
+            if (timer >= timeLimit || isCollided) yield break;
 
             yield return null;
         }
@@ -148,9 +150,44 @@ public class BoostStone : Stone
     {
         Vector3 dir = point - transform.position;
         Debug.Log("Final direction : " + dir);
-        GetComponent<Rigidbody>().velocity = 40 * dir.normalized;
-        Debug.Log("Boosted : " + GetComponent<Rigidbody>().velocity);
-        GetComponent<Rigidbody>().useGravity = false;
+        rigid.velocity = 40 * dir.normalized;
+        Debug.Log("Boosted : " + rigid.velocity);
+        rigid.useGravity = false;
         isBoosted = true;
+    }
+
+    public IEnumerator EnemyThrowAndBoost(Vector3 targetPostion, float angle, float gravity = 9.81f)
+    {
+        base.Throw(targetPostion, angle, gravity);
+
+        // Wait for reaching the highest point
+        yield return new WaitForSeconds(CalculateHighestPointTime(rigid.velocity) + Random.Range(-0.1f, 0.1f));
+        
+        // Gravity off, Slow down stone
+        rigid.useGravity = false;
+        rigid.velocity = Vector3.Scale(rigid.velocity, new Vector3(0.1f, 0.1f, 0.1f));
+        
+        // Show laser towards player shortly
+        LineRenderer _linRender = GetComponent<LineRenderer>();
+        _linRender.enabled = true;
+        _linRender.positionCount = 2;
+        player = GameObject.Find("Main Camera");
+        _linRender.SetPosition(0, transform.position);
+        _linRender.SetPosition(1, player.transform.position - new Vector3(0f, 0.05f, 0f));
+        yield return new WaitForSeconds(1.0f);
+        _linRender.enabled = false;
+
+        // Boost towards player
+        Vector3 dir = player.transform.position - transform.position;
+        rigid.velocity = 40 * dir.normalized;
+        Debug.Log("Boosted");
+        GetComponent<TrailRenderer>().enabled = true;
+
+        // Turn on gravity, Turn off trail
+        yield return new WaitForSeconds(1.0f);        
+        rigid.useGravity = true;
+        GetComponent<TrailRenderer>().enabled = false;
+
+        yield break;
     }
 }
