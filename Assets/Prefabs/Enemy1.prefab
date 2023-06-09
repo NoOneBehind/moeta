@@ -333,19 +333,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebcba9397c7361b4da8dc366bb0400c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 0
+  currentHealth: 0
+  healthBarOffset: {x: 0, y: 2.5, z: 0}
+  healthBarPrefab: {fileID: 0}
   movePoints:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  moveInterval: 10
   minimumMoveInterval: 5
   rotateSpeed: 200
   stonePrefab: {fileID: 0}
-  attackInterval: 10
   minimumAttackInterval: 5
-  waitBeforeThrowing: 2
-  waitAfterThrowing: 2
 --- !u!1 &2011439231737876705
 GameObject:
   m_ObjectHideFlags: 0
