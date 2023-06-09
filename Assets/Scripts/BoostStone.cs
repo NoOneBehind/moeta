@@ -15,8 +15,10 @@ public class BoostStone : Stone
     private XRRayInteractor rayInteractor;
     private GameObject reticle;
     private float timer = 0f;
+    private bool isThrown = false;
     private bool isSlowed = false;
     private bool isBoosted = false;
+    private bool isCollidedAfterThrown = false;
     private float fixedDeltaTime;
     private Image filer;
     private GameObject player;
@@ -31,6 +33,8 @@ public class BoostStone : Stone
 
         filer = GameObject.Find("Filter2").GetComponent<Image>();
         player = GameObject.Find("Main Camera");
+
+        isThrown = true;
 
         StartCoroutine(StoneThrown());
     }
@@ -81,7 +85,7 @@ public class BoostStone : Stone
                 yield break;
             }
             
-            if (isCollided) yield break;
+            if (isCollidedAfterThrown) yield break;
 
             yield return null;
         }
@@ -126,19 +130,20 @@ public class BoostStone : Stone
                 // Update reticle position and scale
                 reticle.transform.position = rayPoint;
                 reticle.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f) * distance;
+
+                // Boost when triggered
+                if (controller.activateActionValue.action.ReadValue<float>() > 0.9f)
+                {
+                    Boost(res.point);
+                    yield break;
+                }
             }
             else
             {
                 reticle.transform.position = new Vector3(0, -100.0f, 0);
             }
 
-            if (controller.activateActionValue.action.ReadValue<float>() > 0.9f)
-            {
-                Boost(res.point);
-                yield break;
-            }
-
-            if (timer >= timeLimit || isCollided) yield break;
+            if (timer >= timeLimit || isCollidedAfterThrown) yield break;
 
             yield return null;
         }
@@ -172,9 +177,14 @@ public class BoostStone : Stone
         _linRender.enabled = true;
         _linRender.positionCount = 2;
         player = GameObject.Find("Main Camera");
-        _linRender.SetPosition(0, transform.position);
         _linRender.SetPosition(1, player.transform.position - new Vector3(0f, 0.05f, 0f));
-        yield return new WaitForSeconds(1.0f);
+        timer = 0f;
+        while (timer < 1f)
+        {
+            _linRender.SetPosition(0, transform.position);
+            timer += Time.deltaTime;
+            yield return null;
+        }
         _linRender.enabled = false;
 
         // Boost towards player
@@ -189,5 +199,10 @@ public class BoostStone : Stone
         GetComponent<TrailRenderer>().enabled = false;
 
         yield break;
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (isThrown) isCollidedAfterThrown = true;
     }
 }

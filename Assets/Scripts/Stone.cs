@@ -52,6 +52,30 @@ public class Stone : MonoBehaviour
         return Mathf.Sqrt(2 * velY / gravity);
     }
 
+    public static Vector3 CalculateLandingPoint(
+        Vector3 currentPos,
+        Vector3 currentVel,
+        float gravity = 9.81f
+    )
+    {
+        // Get horizontal/vertical velocity and angle
+        float horizontalVel = Vector3.Scale(currentVel, new Vector3(1f, 0f, 1f)).magnitude;
+        float verticalVel = currentVel.y;        
+        float theta = Mathf.Atan2(verticalVel, horizontalVel);
+
+        // Get height, elapsed time, and distance
+        float h = 4.36f -currentPos.y;
+        float t = 1 / gravity * (
+            verticalVel + Mathf.Sqrt(Mathf.Pow(verticalVel, 2) - 2 * gravity * h)
+        );
+        float d = horizontalVel * t;
+
+        // Get landing point
+        return currentPos
+            + new Vector3(0f, h, 0f)
+            + d * Vector3.Scale(currentVel, new Vector3(1f, 0f, 1f)).normalized;
+    }
+
     private void OnCollisionEnter(Collision other)
     {
         isCollided = true;

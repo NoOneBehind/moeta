@@ -29,4 +29,16 @@ public class Attacking : MonoBehaviour
         BoostStone _boostStone = boostStone.GetComponent<BoostStone>();
         StartCoroutine(_boostStone.EnemyThrowAndBoost(player.transform.position, throwAngle));        
     }
+
+    public void MommyAttack(GameObject mommyStonePrefab, float throwAngle)
+    {
+        player = GameObject.Find("Main Camera");
+        GameObject mommyStone = Instantiate(
+            mommyStonePrefab,
+            transform.position + transform.forward * 3,
+            transform.rotation
+        );
+        MommyStone _mommyStone = mommyStone.GetComponent<MommyStone>();
+        StartCoroutine(_mommyStone.EnemyThrowAndSplit(player.transform.position, throwAngle));
+    }
 }
