@@ -118,7 +118,7 @@ public class GameManager : MonoBehaviour
 
         Sequence mySquence = DOTween
             .Sequence()
-            .Append(enemyInstance.gameObject.transform.DOMoveY(6f, 3f))
+            .Append(enemyInstance.gameObject.transform.DOMoveY(8.5f, 3f))
             .Join(
                 enemyInstance.gameObject.transform
                     .DORotate(new Vector3(0, 360 * 2 + 180, 0), 3f, RotateMode.FastBeyond360)
