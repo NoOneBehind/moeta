@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour
     private Transform enemySpawnArea;
 
     [SerializeField]
+    private Transform[] spaceshipeMovePoints;
+
+    [SerializeField]
     private int maxLevel;
 
     [SerializeField]
@@ -89,8 +92,20 @@ public class GameManager : MonoBehaviour
         float readyTime = 6f;
 
         gameStateNoticeText.text = "Level " + currentLevel.ToString();
-        Sequence mySquence = DOTween
-            .Sequence()
+        Sequence mySquence = DOTween.Sequence();
+
+        if (currentLevel == 1)
+        {
+            mySquence.Append(
+                enemySpawnArea.DOPath(
+                    spaceshipeMovePoints.Select(point => point.position).ToArray(),
+                    4,
+                    PathType.CatmullRom
+                )
+            );
+        }
+
+        mySquence
             .Append(gameStateNoticeText.DOColor(new Color(1, 1, 1, 0), 0))
             .Append(gameStateNoticeText.DOFade(1f, readyTime / 2).SetEase(Ease.InQuart))
             .AppendInterval(readyTime / 2)
