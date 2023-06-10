@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using DG.Tweening;
 
 public class Enemy_temp : Health
 {
@@ -117,7 +118,8 @@ public class Enemy_temp : Health
 
     public void SetHealthBar()
     {
-        Canvas canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+        Canvas canvas = gameObject.GetComponentInChildren<Canvas>();
+        canvas.worldCamera = Camera.main;
         GameObject healthbarInstance = Instantiate<GameObject>(healthBarPrefab, canvas.transform);
 
         healthbarInstance.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
@@ -127,5 +129,10 @@ public class Enemy_temp : Health
         healthBar.SetHealth(maxHealth);
         healthBar.target = gameObject.transform;
         healthBar.offset = healthBarOffset;
+    }
+
+    private void Update()
+    {
+        healthBar.gameObject.transform.LookAt(Camera.main.transform);
     }
 }
