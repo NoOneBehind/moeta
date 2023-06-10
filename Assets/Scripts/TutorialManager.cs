@@ -16,7 +16,7 @@ public class TutorialManager : MonoBehaviour
     private bool canGrabStone;
     private bool tutorialComplete;
     private int stonesHit; 
-    public Image screenCover;
+    
     private TextMeshProUGUI popUpText;
 
     private void Start()
@@ -37,7 +37,7 @@ public class TutorialManager : MonoBehaviour
   
       popUpWindow.GetComponent<PopUpWindow>().ShowPopUp("자, 내가 돌을 다섯 번\n던질 테니 피해봐라!");
 
-        Invoke("ThrowStone", 5f);
+        Invoke("ThrowStone", 8f);
     }
 
     private void ShowSecondPopUp()
@@ -53,28 +53,27 @@ public class TutorialManager : MonoBehaviour
     {
         popUpWindow.SetActive(true);
         popUpWindow.GetComponent<PopUpWindow>().ShowPopUp("좋아. 이번에야말로 옆 마을을 확실히 이길 수 있겠구나.\n하늘에 계신 어머니도 자랑스러워하실 거다.");
-        Invoke("EndTutorial", 3f);
+        Invoke("EndTutorial", 10f);
     }
 
     private void EndTutorial()
     {
         audioSource.PlayOneShot(alienShipTakeoffSound);
-        StartCoroutine(BlinkAndFadeOut());
+       StartCoroutine(BlinkAndFadeOut());
+}
 
-    }
-
+    
 
     private IEnumerator BlinkAndFadeOut()
-{
+{ Image filer = GameObject.Find("Filter").GetComponent<Image>();
     for(int i = 0; i < 3; i++) // Blink 3 times
-    {
-        screenCover.DOColor(Color.white, 0.1f);
-        yield return new WaitForSeconds(0.1f);
-        screenCover.DOColor(Color.clear, 0.1f);
-        yield return new WaitForSeconds(0.1f);
+    {   
+        filer.DOColor(Color.red, 0);
+        filer.DOFade(0, 1f);
     }
 
-    screenCover.DOColor(Color.black, 3f);
+    filer.DOColor(Color.black, 3f);
+    filer.DOFade(0, 1f);
     yield return new WaitForSeconds(3f);
 
 
@@ -98,6 +97,8 @@ public class TutorialManager : MonoBehaviour
         else
         {
             Invoke("ShowSecondPopUp", 2f);
+            //Invoke("ShowThiredPopUp",3f);
+
         }
     }
 
@@ -110,7 +111,7 @@ public class TutorialManager : MonoBehaviour
 
         if (stonesHit == 5)
         {
-            ShowThiredPopUp();
+            Invoke("ShowThiredPopUp",3f);
         }
     }
 
