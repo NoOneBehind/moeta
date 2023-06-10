@@ -26,6 +26,8 @@ public class PopUpWindow : MonoBehaviour
         StartCoroutine(HidePopUpAfterDelay());
     }
 
+    
+
     private IEnumerator HidePopUpAfterDelay()
     {
         // Wait for the specified display time
