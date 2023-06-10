@@ -3,9 +3,13 @@ using TMPro;
 using UnityEngine.UI;
 using System.Collections;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
+
+
 public class TutorialManager : MonoBehaviour
 {
     public AudioClip alienShipTakeoffSound;
+    public AudioClip forestafternoon;
     private AudioSource audioSource;
 
     public GameObject popUpWindow;
@@ -24,11 +28,15 @@ public class TutorialManager : MonoBehaviour
         popUpText = popUpWindow.GetComponentInChildren<TextMeshProUGUI>();
        //attackingScript = GameObject.Find("rockSpawn").GetComponent<Attacking>();
 
-        Invoke("ShowFirstPopUp", 1f);
+        
         if(audioSource == null)
         {
             audioSource = gameObject.AddComponent<AudioSource>();
         }
+        audioSource.clip = forestafternoon;
+        audioSource.loop = true;
+        audioSource.Play();
+        Invoke("ShowFirstPopUp", 1f);
     }
 
     private void ShowFirstPopUp()
@@ -64,6 +72,7 @@ public class TutorialManager : MonoBehaviour
         }
     private void EndTutorial()
     {
+        audioSource.Stop();
         audioSource.PlayOneShot(alienShipTakeoffSound);
        StartCoroutine(BlinkAndFadeOut());
 }
@@ -80,9 +89,9 @@ public class TutorialManager : MonoBehaviour
 
     filer.DOColor(Color.black, 3f);
     filer.DOFade(0, 1f);
-    yield return new WaitForSeconds(3f);
+    yield return new WaitForSeconds(15f); // Wait for the fade out to finish
 
-
+    UnityEngine.SceneManagement.SceneManager.LoadScene("Tutorial Scene2");
 
     }
 
@@ -102,8 +111,8 @@ public class TutorialManager : MonoBehaviour
         }
         else
         {
-            Invoke("ShowSecondPopUp", 2f);
-            //Invoke("ShowThiredPopUp",3f);
+            //Invoke("ShowSecondPopUp", 2f);
+            Invoke("ShowThiredPopUp",3f);
 
         }
     }
