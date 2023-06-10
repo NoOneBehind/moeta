@@ -12,6 +12,12 @@ public class MommyStone : Stone
     private GameObject explosionPrefab;
     [SerializeField]
     private GameObject reticlePrefab;
+    [SerializeField]
+    private int maxBabyNum = 20;
+    [SerializeField]
+    private int minBabyNum = 3;
+    [SerializeField]
+    private float maxLandingSize = 10.0f;
 
     private float timeLimit = 2.0f;
     private GameObject rightController;
@@ -88,11 +94,20 @@ public class MommyStone : Stone
         while (controller.selectActionValue.action.ReadValue<float>() > 0.9f)
         {
             timer += Time.deltaTime / Time.timeScale;
-            
+
+            // Haptic feedback
+            controller.SendHapticImpulse(0.1f, Time.deltaTime / Time.timeScale);
+
+            // Increase baby stones number and landing point scale with time
+            int babyNum = (int)(timer * (maxBabyNum - minBabyNum) / timeLimit + minBabyNum);
+            float landingScale = timer * (maxLandingSize - 1f) / timeLimit + 1f;
+            reticle.transform.localScale = new Vector3(landingScale, 1f, landingScale);
+
             // Split when triggered
             if (controller.activateActionValue.action.ReadValue<float>() > 0.9f)
             {
-                Split(rigid.velocity, false, landingPoint);
+                controller.SendHapticImpulse(1.0f, 0.3f);
+                Split(rigid.velocity, babyNum, false, landingScale, landingPoint);
                 yield break;
             }
 
@@ -105,7 +120,11 @@ public class MommyStone : Stone
     }
 
     private void Split(
-        Vector3 originalVel, bool isFromEnemy, Vector3 landingPoint = default(Vector3)
+        Vector3 originalVel,
+        int babyNum,
+        bool isFromEnemy,
+        float landingScale = 1f,
+        Vector3 landingPoint = default(Vector3)
     )
     {
         player = GameObject.Find("Main Camera");
@@ -125,16 +144,16 @@ public class MommyStone : Stone
         Destroy(explosion, 5.0f);
 
         // Instantiate baby stones
-        GameObject[] babyStones = new GameObject[20];
+        GameObject[] babyStones = new GameObject[babyNum];
         for (int i = 0; i < babyStones.Length; i++)
         {
             babyStones[i] = Instantiate(
                 babyStonePrefab,
                 transform.position
                     + new Vector3(
-                        Random.Range(-0.2f, 0.2f),
-                        Random.Range(-0.2f, 0.2f),
-                        Random.Range(-0.2f, 0.2f)
+                        Random.Range(-1f, 1f),
+                        Random.Range(-1f, 1f),
+                        Random.Range(-1f, 1f)
                     ),
                 transform.rotation
             );
@@ -143,14 +162,14 @@ public class MommyStone : Stone
             if (isFromEnemy)
             {
                 babyStones[i].GetComponent<Rigidbody>().velocity = CalculateInitialVelocity(
-                    transform.position,                        
+                    transform.position,
                     player.transform.position
                         + new Vector3(
-                            Random.Range(-1f, 1f),
-                            Random.Range(-1f, 1f),
-                            Random.Range(-1f, 1f)
+                            Random.Range(-0.6f * landingScale, 0.6f * landingScale),
+                            Random.Range(-0.6f * landingScale, 0.6f * landingScale),
+                            Random.Range(-0.6f * landingScale, 0.6f * landingScale)
                         ),
-                    originalAngle
+                originalAngle
                 );
             }
 
@@ -161,9 +180,9 @@ public class MommyStone : Stone
                     transform.position,
                     landingPoint
                         + new Vector3(
-                            Random.Range(-1f, 1f),
-                            Random.Range(-1f, 1f),
-                            Random.Range(-1f, 1f)
+                            Random.Range(-0.6f * landingScale, 0.6f * landingScale),
+                            0f,
+                            Random.Range(-0.6f * landingScale, 0.6f * landingScale)
                         ),
                     originalAngle
                 );
@@ -201,7 +220,9 @@ public class MommyStone : Stone
         _linRender.enabled = false;
 
         // Split
-        Split(originalVel, true);
+        int babyNum = Random.Range(minBabyNum, maxBabyNum);
+        float landingScale = Random.Range(1.0f, 10.0f);
+        Split(originalVel, babyNum, true);
 
         yield break;
     }

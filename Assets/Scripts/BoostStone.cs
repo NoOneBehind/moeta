@@ -119,6 +119,9 @@ public class BoostStone : Stone
         {
             timer += Time.deltaTime / Time.timeScale;
 
+            // Haptic feedback
+            controller.SendHapticImpulse(0.1f, Time.deltaTime / Time.timeScale);
+
             RaycastHit res;
             if (rayInteractor.TryGetCurrent3DRaycastHit(out res))
             {
@@ -134,6 +137,7 @@ public class BoostStone : Stone
                 // Boost when triggered
                 if (controller.activateActionValue.action.ReadValue<float>() > 0.9f)
                 {
+                    controller.SendHapticImpulse(1.0f, 0.3f);
                     Boost(res.point);
                     yield break;
                 }
