@@ -52,10 +52,16 @@ public class TutorialManager : MonoBehaviour
     private void ShowThiredPopUp()
     {
         popUpWindow.SetActive(true);
-        popUpWindow.GetComponent<PopUpWindow>().ShowPopUp("좋아. 이번에야말로 옆 마을을 확실히 이길 수 있겠구나.\n하늘에 계신 어머니도 자랑스러워하실 거다.");
-        Invoke("EndTutorial", 10f);
-    }
+        popUpWindow.GetComponent<PopUpWindow>().ShowPopUp("좋아. 이번에야말로 \n옆 마을을 확실히 이길 수 있겠구나.");
+         StartCoroutine(ShowSecondPopupAfterDelay(3f));
+}
 
+        private IEnumerator ShowSecondPopupAfterDelay(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            popUpWindow.GetComponent<PopUpWindow>().ShowPopUp("하늘에 계신 어머니도\n 자랑스러워하실 거다.");
+            Invoke("EndTutorial", 5f);
+        }
     private void EndTutorial()
     {
         audioSource.PlayOneShot(alienShipTakeoffSound);
