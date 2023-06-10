@@ -6,7 +6,6 @@ public class Stone : MonoBehaviour
 {
     protected Vector3 targetPostion;
     protected Rigidbody rigid;
-    protected bool isCollided = false;
 
     void Awake()
     {
@@ -60,14 +59,13 @@ public class Stone : MonoBehaviour
     {
         // Get horizontal/vertical velocity and angle
         float horizontalVel = Vector3.Scale(currentVel, new Vector3(1f, 0f, 1f)).magnitude;
-        float verticalVel = currentVel.y;        
+        float verticalVel = currentVel.y;
         float theta = Mathf.Atan2(verticalVel, horizontalVel);
 
         // Get height, elapsed time, and distance
-        float h = 4f -currentPos.y;
-        float t = 1 / gravity * (
-            verticalVel + Mathf.Sqrt(Mathf.Pow(verticalVel, 2) - 2 * gravity * h)
-        );
+        float h = 4.36f - currentPos.y;
+        float t =
+            1 / gravity * (verticalVel + Mathf.Sqrt(Mathf.Pow(verticalVel, 2) - 2 * gravity * h));
         float d = horizontalVel * t;
 
         // Get landing point
@@ -78,8 +76,6 @@ public class Stone : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        isCollided = true;
-        
         if (
             other.gameObject.CompareTag("Enemy")
             || other.gameObject.CompareTag("Player")

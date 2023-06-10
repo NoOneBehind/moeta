@@ -122,7 +122,7 @@ public class Enemy_temp : Health
         canvas.worldCamera = Camera.main;
         GameObject healthbarInstance = Instantiate<GameObject>(healthBarPrefab, canvas.transform);
 
-        healthbarInstance.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+        healthbarInstance.transform.localScale = new Vector3(0.03f, 0.03f, 0.03f);
         healthBar = healthbarInstance.GetComponent<HealthBar>();
 
         healthBar.SetMaxHealth(maxHealth);
@@ -133,6 +133,9 @@ public class Enemy_temp : Health
 
     private void Update()
     {
-        healthBar.gameObject.transform.LookAt(Camera.main.transform);
+        if (healthBar?.gameObject != null)
+        {
+            healthBar.gameObject.transform.LookAt(Camera.main.transform);
+        }
     }
 }
