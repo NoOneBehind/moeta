@@ -18,7 +18,7 @@ public class MommyStone : Stone
     private int minBabyNum = 3;
     [SerializeField]
     private float maxLandingSize = 10.0f;
-
+    [SerializeField]
     private float timeLimit = 2.0f;
     private GameObject rightController;
     private ActionBasedController controller;
@@ -141,7 +141,7 @@ public class MommyStone : Stone
             transform.position,
             transform.rotation
         );
-        Destroy(explosion, 5.0f);
+        Destroy(explosion, 2.0f);
 
         // Instantiate baby stones
         GameObject[] babyStones = new GameObject[babyNum];
@@ -151,9 +151,9 @@ public class MommyStone : Stone
                 babyStonePrefab,
                 transform.position
                     + new Vector3(
-                        Random.Range(-1f, 1f),
-                        Random.Range(-1f, 1f),
-                        Random.Range(-1f, 1f)
+                        Random.Range(-0.1f, 0.1f),
+                        Random.Range(-0.1f, 0.1f),
+                        Random.Range(-0.1f, 0.1f)
                     ),
                 transform.rotation
             );
@@ -165,9 +165,9 @@ public class MommyStone : Stone
                     transform.position,
                     player.transform.position
                         + new Vector3(
-                            Random.Range(-0.6f * landingScale, 0.6f * landingScale),
-                            Random.Range(-0.6f * landingScale, 0.6f * landingScale),
-                            Random.Range(-0.6f * landingScale, 0.6f * landingScale)
+                            Random.Range(-0.5f * landingScale, 0.5f * landingScale),
+                            Random.Range(-0.5f * landingScale, 0.5f * landingScale),
+                            Random.Range(-0.5f * landingScale, 0.5f * landingScale)
                         ),
                 originalAngle
                 );
@@ -180,9 +180,9 @@ public class MommyStone : Stone
                     transform.position,
                     landingPoint
                         + new Vector3(
-                            Random.Range(-0.6f * landingScale, 0.6f * landingScale),
+                            Random.Range(-0.5f * landingScale, 0.5f * landingScale),
                             0f,
-                            Random.Range(-0.6f * landingScale, 0.6f * landingScale)
+                            Random.Range(-0.5f * landingScale, 0.5f * landingScale)
                         ),
                     originalAngle
                 );
