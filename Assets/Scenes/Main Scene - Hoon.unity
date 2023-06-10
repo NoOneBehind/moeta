@@ -6793,14 +6793,16 @@ MonoBehaviour:
   - {fileID: 1983816653}
   - {fileID: 1063863584}
   - {fileID: 1497395138}
-  maxLevel: 2
-  totalEnemyCount: 0300000014000000
+  maxLevel: 3
+  totalEnemyCount: 01000000010000000a000000
   spawnInterval:
+  - 7
   - 7
   - 7
   enemyPrefabs:
   - {fileID: 7138445042288157957, guid: 3d9858ae576b2414ba9398158ff9d9bf, type: 3}
   - {fileID: 4867022740242561795, guid: 49a9306166284481c854d87c8c9b11f9, type: 3}
+  - {fileID: 7949864686496488778, guid: 3ef2a8f2bcbeb42b3aff231ffdbcbb5b, type: 3}
   enemyMovePointsLevel1:
   - {fileID: 1503352532}
   - {fileID: 1967425901}

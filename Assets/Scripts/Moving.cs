@@ -13,8 +13,9 @@ public class Moving : MonoBehaviour
 
     public IEnumerator MoveToPoint(Vector3 movePointPos)
     {
-        while (true)
+        while (!GetComponent<Enemy_temp>().isDead)
         {
+            Debug.Log(GetComponent<Enemy_temp>().isDead);
             agent.SetDestination(movePointPos);
             Vector3 distance = movePointPos - transform.position;
 
@@ -30,7 +31,7 @@ public class Moving : MonoBehaviour
 
     public IEnumerator RotateTowards(Vector3 targetPosition, float rotateSpeed)
     {
-        while (true)
+        while (!GetComponent<Enemy_temp>().isDead)
         {
             Vector3 relativePos = targetPosition - transform.position;
             Quaternion relativeRot = Quaternion.LookRotation(relativePos);

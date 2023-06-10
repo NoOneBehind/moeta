@@ -35,6 +35,8 @@ public class Enemy_temp : Health
     [SerializeField]
     protected float minimumAttackInterval = 5.0f;
 
+    public bool isDead = false;
+
     protected UnityEngine.AI.NavMeshAgent agent;
 
     protected Moving moving;
@@ -68,31 +70,30 @@ public class Enemy_temp : Health
                 + new Vector3(Random.Range(-1.0f, 1.0f), 0, Random.Range(-1.0f, 1.0f));
         }
 
-        // move to point1
-        animator.SetBool("isMoving", true);
-        yield return StartCoroutine(moving.MoveToPoint(movePointPos[0]));
-        yield return StartCoroutine(moving.RotateTowards(player.transform.position, rotateSpeed));
-        animator.SetBool("isMoving", false);
-        yield return new WaitForSeconds(minimumMoveInterval + Random.Range(0f, 2f));
-
-        // move to point2
-        animator.SetBool("isMoving", true);
-        yield return StartCoroutine(moving.MoveToPoint(movePointPos[1]));
-        yield return StartCoroutine(moving.RotateTowards(player.transform.position, rotateSpeed));
-        animator.SetBool("isMoving", false);
-        yield return new WaitForSeconds(minimumMoveInterval + Random.Range(0f, 2f));
-
-        // move to point3 (attack position)
-        animator.SetBool("isMoving", true);
-        yield return StartCoroutine(moving.MoveToPoint(movePointPos[2]));
-        yield return StartCoroutine(moving.RotateTowards(player.transform.position, rotateSpeed));
-        animator.SetBool("isMoving", false);
+        for (int i = 0; i < 3; ++i)
+        {
+            animator?.SetBool("isMoving", true);
+            yield return StartCoroutine(moving.MoveToPoint(movePointPos[i]));
+            if (isDead)
+                yield break;
+            yield return StartCoroutine(
+                moving.RotateTowards(player.transform.position, rotateSpeed)
+            );
+            if (isDead)
+                yield break;
+            animator?.SetBool("isMoving", false);
+            yield return new WaitForSeconds(minimumMoveInterval + Random.Range(0f, 2f));
+            if (isDead)
+                yield break;
+        }
 
         // attack
-        while (true)
+        while (!isDead)
         {
             attacking.Attack(stonePrefab, Random.Range(30f, 60f));
             yield return new WaitForSeconds(minimumAttackInterval + Random.Range(0f, 3f));
+            if (isDead)
+                yield break;
         }
     }
 
@@ -100,6 +101,12 @@ public class Enemy_temp : Health
     {
         gameManager.leftEnemyCount -= 1;
         healthBar.SetHealth(0);
+        animator?.SetTrigger("isDead");
+        isDead = true;
+
+        GetComponent<BoxCollider>().enabled = false;
+        GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
+        GetComponent<Moving>().enabled = false;
 
         if (gameManager.leftEnemyCount == 0)
         {
@@ -107,13 +114,20 @@ public class Enemy_temp : Health
             gameManager.LevelStart();
         }
 
-        Destroy(healthBar.gameObject);
-        Destroy(gameObject);
+        StopAllCoroutines();
+        moving.StopAllCoroutines();
+
+        Destroy(healthBar.gameObject, 3f);
+        Destroy(gameObject, 3f);
     }
 
     protected void OnEnemyHealthChanged(int currentHealth)
     {
         healthBar.SetHealth(currentHealth);
+        if (currentHealth > 0)
+        {
+            animator?.SetTrigger("isHit");
+        }
     }
 
     public void SetHealthBar()

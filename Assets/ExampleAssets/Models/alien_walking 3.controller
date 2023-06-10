@@ -70,7 +70,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -4398270123438568637, guid: e9d26f4996da6194d9fbbc4d5a4fbfcd,
+  m_Motion: {fileID: -7846385557210570386, guid: c6230cebac6240842bcbf8e7260aac9f,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -147,7 +147,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -5208255974928976841, guid: e9d26f4996da6194d9fbbc4d5a4fbfcd,
+  m_Motion: {fileID: -5208255974928976841, guid: c6230cebac6240842bcbf8e7260aac9f,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -207,7 +207,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: alien_walking
+  m_Name: alien_walking 3
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: isMoving
@@ -215,19 +215,19 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isHit
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isDead
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -263,7 +263,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7176209919637214875, guid: e9d26f4996da6194d9fbbc4d5a4fbfcd,
+  m_Motion: {fileID: 7176209919637214875, guid: c6230cebac6240842bcbf8e7260aac9f,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
