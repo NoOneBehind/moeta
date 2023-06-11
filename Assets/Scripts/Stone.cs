@@ -65,7 +65,7 @@ public class Stone : MonoBehaviour
         float theta = Mathf.Atan2(verticalVel, horizontalVel);
 
         // Get height, elapsed time, and distance
-        float h = 4.36f - currentPos.y;
+        float h = 4.0f - currentPos.y;
         float t =
             1 / gravity * (verticalVel + Mathf.Sqrt(Mathf.Pow(verticalVel, 2) - 2 * gravity * h));
         float d = horizontalVel * t;
