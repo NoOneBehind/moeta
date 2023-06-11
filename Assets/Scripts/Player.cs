@@ -41,7 +41,7 @@ public class Player : Health
                 );
                 stone.GetComponent<Renderer>().material.DOColor(Color.green, 0);
 
-                stone.Throw(closestEnemy.transform.position - Vector3.forward * 1, throwAngle);
+                stone.Throw(closestEnemy.transform.position - Vector3.forward * 1, 60);
             }
         }
     }

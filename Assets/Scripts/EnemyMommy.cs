@@ -7,13 +7,6 @@ public class EnemyMommy : Enemy_temp
     [SerializeField]
     private GameObject mommyStonePrefab;
 
-    protected override void Start()
-    {
-        base.Start();
-
-        StartCoroutine(MoveAndMommyAttack());
-    }
-
     public IEnumerator MoveAndMommyAttack()
     {
         movePointPos = new Vector3[movePoints.Length];

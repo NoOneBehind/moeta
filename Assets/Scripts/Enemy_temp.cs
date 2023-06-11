@@ -72,7 +72,8 @@ public class Enemy_temp : Health
 
         for (int i = 0; i < 3; ++i)
         {
-            animator?.SetBool("isMoving", true);
+            if (animator != null)
+                animator?.SetBool("isMoving", true);
             yield return StartCoroutine(moving.MoveToPoint(movePointPos[i]));
             if (isDead)
                 yield break;
@@ -81,7 +82,8 @@ public class Enemy_temp : Health
             );
             if (isDead)
                 yield break;
-            animator?.SetBool("isMoving", false);
+            if (animator != null)
+                animator?.SetBool("isMoving", false);
             yield return new WaitForSeconds(minimumMoveInterval + Random.Range(0f, 2f));
             if (isDead)
                 yield break;
@@ -101,24 +103,34 @@ public class Enemy_temp : Health
     {
         gameManager.leftEnemyCount -= 1;
         healthBar.SetHealth(0);
-        animator?.SetTrigger("isDead");
+        if (animator != null)
+            animator?.SetTrigger("isDead");
         isDead = true;
 
         GetComponent<BoxCollider>().enabled = false;
-        GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
-        GetComponent<Moving>().enabled = false;
+        if (agent != null)
+            agent.enabled = false;
+        var moving = GetComponent<Moving>();
+        if (moving != null)
+            moving.enabled = false;
 
-        if (gameManager.leftEnemyCount == 0)
+        var isFinal = gameManager.currentLevel == gameManager.maxLevel;
+
+        if (gameManager.leftEnemyCount == 0 && gameManager.currentLevel < gameManager.maxLevel)
         {
             gameManager.currentLevel += 1;
             gameManager.LevelStart();
         }
 
         StopAllCoroutines();
-        moving.StopAllCoroutines();
+        if (moving != null)
+            moving.StopAllCoroutines();
 
-        Destroy(healthBar.gameObject, 3f);
-        Destroy(gameObject, 3f);
+        var destroyDelayTime = isFinal ? 0 : 3;
+
+        Debug.Log(gameObject.name);
+        Destroy(healthBar.gameObject, destroyDelayTime);
+        Destroy(gameObject, destroyDelayTime);
     }
 
     protected void OnEnemyHealthChanged(int currentHealth)
@@ -126,7 +138,8 @@ public class Enemy_temp : Health
         healthBar.SetHealth(currentHealth);
         if (currentHealth > 0)
         {
-            animator?.SetTrigger("isHit");
+            if (animator != null)
+                animator?.SetTrigger("isHit");
         }
     }
 

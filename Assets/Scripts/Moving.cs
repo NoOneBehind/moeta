@@ -15,7 +15,6 @@ public class Moving : MonoBehaviour
     {
         while (!GetComponent<Enemy_temp>().isDead)
         {
-            Debug.Log(GetComponent<Enemy_temp>().isDead);
             agent.SetDestination(movePointPos);
             Vector3 distance = movePointPos - transform.position;
 

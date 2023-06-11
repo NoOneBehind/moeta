@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     private Transform[] spaceshipeMovePoints;
 
     [SerializeField]
-    private int maxLevel;
+    public int maxLevel;
 
     [SerializeField]
     private int[] totalEnemyCount;
@@ -227,7 +227,11 @@ public class GameManager : MonoBehaviour
         spaceship.SetHealthBar();
         spaceship.transform
             .DOMove(spaceship.attackPoints[0].position, 1f)
-            .OnComplete(() => StartCoroutine(spaceship.MoveAndAttack()));
+            .OnComplete(() =>
+            {
+                spaceship.GetComponent<BoxCollider>().enabled = true;
+                StartCoroutine(spaceship.MoveAndAttack());
+            });
     }
 
     public void GameOver()

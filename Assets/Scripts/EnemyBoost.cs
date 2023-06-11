@@ -7,13 +7,6 @@ public class EnemyBoost : Enemy_temp
     [SerializeField]
     private GameObject boostStonePrefab;
 
-    protected override void Start()
-    {
-        base.Start();
-
-        StartCoroutine(MoveAndBoostAttack());
-    }
-
     public IEnumerator MoveAndBoostAttack()
     {
         movePointPos = new Vector3[movePoints.Length];
