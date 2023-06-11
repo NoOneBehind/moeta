@@ -80,6 +80,14 @@ public class Stone : MonoBehaviour
     {
         if (
             other.gameObject.CompareTag("Enemy")
+            && GetComponentInParent<Transform>().gameObject.name == "EnemyStones"
+        )
+        {
+            return;
+        }
+
+        if (
+            other.gameObject.CompareTag("Enemy")
             || other.gameObject.CompareTag("Player")
             || other.gameObject.CompareTag("MainCamera")
         )
