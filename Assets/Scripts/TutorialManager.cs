@@ -51,7 +51,7 @@ public class TutorialManager : MonoBehaviour
     private void ShowSecondPopUp()
     {
         popUpWindow.SetActive(true);
-        popUpWindow.GetComponent<PopUpWindow>().ShowPopUp("잘했다. 이제 바위에 던져!\n  다섯 개를 맞춰보거라!");
+        popUpWindow.GetComponent<PopUpWindow>().ShowPopUp("잘했다. 이제 바위에 던져!\n  세 개를 맞춰보거라!");
 
         canGrabStone = true;
         stonesHit = 0;
@@ -102,7 +102,7 @@ public class TutorialManager : MonoBehaviour
         if (tutorialComplete)
             return;
 
-         if (stonesThrown < 5)
+         if (stonesThrown < 3)
         {
             //  Instantiate(stonePrefab, spawnPoint.position, Quaternion.identity);
             spawnPoint.GetComponent<Attacking>().Attack(stonePrefab, 45f); // Example throwAngle value of 45 degrees
@@ -111,8 +111,8 @@ public class TutorialManager : MonoBehaviour
         }
         else
         {
-            //Invoke("ShowSecondPopUp", 2f);
-            Invoke("ShowThiredPopUp",3f);
+            Invoke("ShowSecondPopUp", 2f);
+            //Invoke("ShowThiredPopUp",3f);
 
         }
     }

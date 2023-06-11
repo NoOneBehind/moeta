@@ -6,11 +6,17 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/StartScene/StartScene.unity
+    guid: 2c7fae32ad9366d42842c912303a97e0
+  - enabled: 1
     path: Assets/Scenes/TutorialScenes/Tutorial Scene.unity
     guid: e8d68f3bbbe4e9a49b73cb4a837ba6b2
   - enabled: 1
     path: Assets/Scenes/TutorialScenes/Tutorial Scene2.unity
     guid: ea882f5832ffaba40ad95bbffa5092ff
+  - enabled: 1
+    path: Assets/Scenes/Main Scene - Hoon.unity
+    guid: 11055dc5a42744fdfaacadad1e19790e
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: bfa1182bd221b4ca89619141f66f1260,
       type: 2}
