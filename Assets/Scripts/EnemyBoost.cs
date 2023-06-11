@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class EnemyBoost : Enemy_temp
 {
-
     [Header("Boost Attack Property")]
     [SerializeField]
     private GameObject boostStonePrefab;
@@ -27,23 +26,10 @@ public class EnemyBoost : Enemy_temp
 
         // move to point1
         animator.SetBool("isMoving", true);
-        yield return StartCoroutine(moving.MoveToPoint(movePointPos[0]));
+        yield return StartCoroutine(moving.MoveToPoint(movePointPos[1]));
         yield return StartCoroutine(moving.RotateTowards(player.transform.position, rotateSpeed));
         animator.SetBool("isMoving", false);
         yield return new WaitForSeconds(minimumMoveInterval + Random.Range(0f, 2f));
-
-        // // move to point2
-        // animator.SetBool("isMoving", true);
-        // yield return StartCoroutine(moving.MoveToPoint(movePointPos[1]));
-        // yield return StartCoroutine(moving.RotateTowards(player.transform.position, rotateSpeed));
-        // animator.SetBool("isMoving", false);
-        // yield return new WaitForSeconds(minimumMoveInterval + Random.Range(0f, 2f));
-
-        // // move to point3 (attack position)
-        // animator.SetBool("isMoving", true);
-        // yield return StartCoroutine(moving.MoveToPoint(movePointPos[2]));
-        // yield return StartCoroutine(moving.RotateTowards(player.transform.position, rotateSpeed));
-        // animator.SetBool("isMoving", false);
 
         // attack
         while (true)
@@ -52,5 +38,4 @@ public class EnemyBoost : Enemy_temp
             yield return new WaitForSeconds(minimumAttackInterval + Random.Range(0f, 3f));
         }
     }
-
 }

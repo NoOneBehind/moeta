@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using DG.Tweening;
 using TMPro;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -29,6 +30,9 @@ public class GameManager : MonoBehaviour
     private GameObject[] enemyPrefabs;
 
     [SerializeField]
+    private GameObject[] bossPrefabs;
+
+    [SerializeField]
     private GameObject[] enemyMovePointsLevel1;
 
     [SerializeField]
@@ -39,6 +43,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private TextMeshProUGUI gameStateNoticeText;
+
+    private GameObject player;
 
     public int spawnedEnemyCount;
     public int leftEnemyCount;
@@ -70,6 +76,8 @@ public class GameManager : MonoBehaviour
 
         instance = this;
 
+        player = GameObject.FindWithTag("Player");
+
         DontDestroyOnLoad(this.gameObject);
     }
 
@@ -79,11 +87,16 @@ public class GameManager : MonoBehaviour
         {
             currentLevel = 1;
         }
+
         LevelStart();
     }
 
     public void LevelStart()
     {
+        spawnedEnemyCount = 0;
+        deadEnemyCount = 0;
+        leftEnemyCount = totalEnemyCount[currentLevel - 1];
+
         foreach (var point in enemyMovePointsLevel3)
         {
             visitedPointsLevel3[point] = false;
@@ -91,33 +104,62 @@ public class GameManager : MonoBehaviour
 
         float readyTime = 6f;
 
-        gameStateNoticeText.text = "Level " + currentLevel.ToString();
-        Sequence mySquence = DOTween.Sequence();
-
-        if (currentLevel == 1)
+        if (currentLevel != maxLevel)
         {
-            mySquence.Append(
-                enemySpawnArea.DOPath(
-                    spaceshipeMovePoints.Select(point => point.position).ToArray(),
-                    4,
-                    PathType.CatmullRom
+            gameStateNoticeText.text = "Level " + currentLevel.ToString();
+            Sequence mySquence = DOTween.Sequence();
+
+            if (currentLevel == 1)
+            {
+                mySquence.Append(
+                    enemySpawnArea.DOPath(
+                        spaceshipeMovePoints.Select(point => point.position).ToArray(),
+                        4,
+                        PathType.CatmullRom
+                    )
+                );
+            }
+
+            mySquence
+                .Append(gameStateNoticeText.DOColor(new Color(1, 1, 1, 0), 0))
+                .Append(gameStateNoticeText.DOFade(1f, readyTime / 2).SetEase(Ease.InQuart))
+                .AppendInterval(readyTime / 2)
+                .Append(
+                    gameStateNoticeText.rectTransform.DOLocalMoveZ(-400f, 2f).SetEase(Ease.InQuart)
                 )
-            );
+                .Append(gameStateNoticeText.DOFade(0f, 0))
+                .Join(gameStateNoticeText.rectTransform.DOLocalMoveZ(0, 0));
+
+            InvokeRepeating(nameof(SpawnEnemy), readyTime, spawnInterval[currentLevel - 1]);
         }
+        else
+        {
+            Sequence mySquence = DOTween.Sequence();
 
-        mySquence
-            .Append(gameStateNoticeText.DOColor(new Color(1, 1, 1, 0), 0))
-            .Append(gameStateNoticeText.DOFade(1f, readyTime / 2).SetEase(Ease.InQuart))
-            .AppendInterval(readyTime / 2)
-            .Append(gameStateNoticeText.rectTransform.DOLocalMoveZ(-400f, 2f).SetEase(Ease.InQuart))
-            .Append(gameStateNoticeText.DOFade(0f, 0))
-            .Join(gameStateNoticeText.rectTransform.DOLocalMoveZ(0, 0));
+            var playerOriginalPosition = player.transform.position;
 
-        spawnedEnemyCount = 0;
-        deadEnemyCount = 0;
-        leftEnemyCount = totalEnemyCount[currentLevel - 1];
+            Image angry = enemySpawnArea.GetComponentsInChildren<Canvas>()[
+                1
+            ].GetComponentInChildren<Image>();
 
-        InvokeRepeating(nameof(SpawnEnemy), readyTime, spawnInterval[currentLevel - 1]);
+            mySquence
+                .Append(
+                    player.transform.DOMove(
+                        enemySpawnArea.transform.position - new Vector3(20, 3, 0),
+                        0.5f
+                    )
+                )
+                .Append(angry.DOFade(1f, 0f))
+                .Append(angry.rectTransform.DOScale(0.015f, 0.4f).SetLoops(4, LoopType.Yoyo))
+                .AppendInterval(1f)
+                .Append(angry.DOFade(0f, 0f))
+                .Append(player.transform.DOMove(playerOriginalPosition, 0.5f))
+                .AppendCallback(() =>
+                {
+                    InitSpaceship();
+                    InvokeRepeating(nameof(SpawnEnemy), 2f, spawnInterval[currentLevel - 1]);
+                });
+        }
     }
 
     private void SpawnEnemy()
@@ -125,7 +167,7 @@ public class GameManager : MonoBehaviour
         Vector3 spawnPosition = enemySpawnArea.position;
 
         GameObject enemyInstance = Instantiate(
-            enemyPrefabs[currentLevel - 1],
+            spawnedEnemyCount == 0 ? bossPrefabs[currentLevel - 1] : enemyPrefabs[currentLevel - 1],
             spawnPosition,
             Quaternion.Euler(0, 180, 0)
         );
@@ -163,7 +205,30 @@ public class GameManager : MonoBehaviour
 
         enemy.SetHealthBar();
         agent.enabled = true;
-        StartCoroutine(enemy.MoveAndAttackLevel1());
+
+        EnemyBoost boostBoss = enemy.GetComponent<EnemyBoost>();
+        EnemyMommy mommyBoss = enemy.GetComponent<EnemyMommy>();
+        if (boostBoss != null)
+        {
+            StartCoroutine(boostBoss.MoveAndBoostAttack());
+        }
+        else if (mommyBoss != null)
+        {
+            StartCoroutine(mommyBoss.MoveAndMommyAttack());
+        }
+        else
+        {
+            StartCoroutine(enemy.MoveAndAttackLevel1());
+        }
+    }
+
+    private void InitSpaceship()
+    {
+        EnemySpaceShip spaceship = enemySpawnArea.GetComponent<EnemySpaceShip>();
+        spaceship.SetHealthBar();
+        spaceship.transform
+            .DOMove(spaceship.attackPoints[0].position, 1f)
+            .OnComplete(() => StartCoroutine(spaceship.MoveAndAttack()));
     }
 
     public void GameOver()

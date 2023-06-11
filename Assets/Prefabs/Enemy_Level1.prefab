@@ -825,7 +825,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebcba9397c7361b4da8dc366bb0400c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 30
+  maxHealth: 10
   currentHealth: 0
   healthBarOffset: {x: 0, y: 1.5, z: 0}
   healthBarPrefab: {fileID: 6753931871931596106, guid: 99ef8401d494cb747af08cad37d0dab5,
@@ -838,7 +838,8 @@ MonoBehaviour:
   rotateSpeed: 200
   stonePrefab: {fileID: 1641139492461932871, guid: 74172c63281f96f40a5153a7121cc890,
     type: 3}
-  minimumAttackInterval: 3
+  minimumAttackInterval: 7
+  isDead: 0
 --- !u!114 &-3683421699686592186
 MonoBehaviour:
   m_ObjectHideFlags: 0
