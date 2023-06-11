@@ -19,7 +19,6 @@ public class Player : Health
         base.Start();
 
         OnDeath += OnPlayerDeath;
-        OnDeath += GameManager.Instance.GameOver;
         OnHealthChanged += OnPlayerHealthChanged;
 
         healthText.text = "Player HP : " + currentHealth.ToString();
@@ -69,7 +68,7 @@ public class Player : Health
 
     void OnPlayerDeath()
     {
-        Debug.Log("Player is dead");
+        GameManager.Instance.GameOver();
     }
 
     void OnPlayerHealthChanged(int currentHealth)

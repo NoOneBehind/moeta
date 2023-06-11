@@ -240,11 +240,12 @@ public class GameManager : MonoBehaviour
 
         StopAllCoroutines();
 
-        gameStateNoticeText.text = "Game Over";
-        Sequence mySquence = DOTween
-            .Sequence()
-            .Append(gameStateNoticeText.DOColor(new Color(1, 0, 0, 0), 0))
-            .Append(gameStateNoticeText.DOFade(1f, 2f).SetEase(Ease.InQuart));
+        UnityEngine.SceneManagement.SceneManager.LoadScene("GameOver");
+        // gameStateNoticeText.text = "Game Over";
+        // Sequence mySquence = DOTween
+        //     .Sequence()
+        //     .Append(gameStateNoticeText.DOColor(new Color(1, 0, 0, 0), 0))
+        //     .Append(gameStateNoticeText.DOFade(1f, 2f).SetEase(Ease.InQuart));
     }
 
     private static T GetRandomElement<T>(T[] array)
