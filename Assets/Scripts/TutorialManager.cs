@@ -102,12 +102,12 @@ public class TutorialManager : MonoBehaviour
         if (tutorialComplete)
             return;
 
-         if (stonesThrown < 3)
+         if (stonesThrown < 5)
         {
             //  Instantiate(stonePrefab, spawnPoint.position, Quaternion.identity);
             spawnPoint.GetComponent<Attacking>().Attack(stonePrefab, 45f); // Example throwAngle value of 45 degrees
             stonesThrown++;
-            Invoke("ThrowStone", 1.5f);
+            Invoke("ThrowStone", 2f);
         }
         else
         {
@@ -124,7 +124,7 @@ public class TutorialManager : MonoBehaviour
 
         stonesHit++;
 
-        if (stonesHit == 5)
+        if (stonesHit == 3)
         {
             Invoke("ShowThiredPopUp",3f);
         }

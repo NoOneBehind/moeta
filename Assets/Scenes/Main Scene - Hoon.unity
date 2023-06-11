@@ -7672,7 +7672,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a827f04b9768647c9b13c797669c65d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 20
   currentHealth: 0
   stonePrefab: {fileID: 7115654968978331209, guid: 74172c63281f96f40a5153a7121cc890,
     type: 3}

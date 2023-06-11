@@ -77,8 +77,6 @@ public class GameManager : MonoBehaviour
         instance = this;
 
         player = GameObject.FindWithTag("Player");
-
-        DontDestroyOnLoad(this.gameObject);
     }
 
     void Start()
