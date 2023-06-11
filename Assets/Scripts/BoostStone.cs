@@ -8,6 +8,7 @@ public class BoostStone : Stone
 {
     [SerializeField]
     private GameObject reticlePrefab;
+
     [SerializeField]
     private float timeLimit = 2.0f;
     private GameObject rayIneteractController;
@@ -43,10 +44,7 @@ public class BoostStone : Stone
     {
         while (true)
         {
-            if (
-                controller.selectActionValue.action.ReadValue<float>() > 0.9f
-                && isSlowed == false
-            )
+            if (controller.selectActionValue.action.ReadValue<float>() > 0.9f && isSlowed == false)
             {
                 yield return StartCoroutine(SlowTime());
 
@@ -55,11 +53,14 @@ public class BoostStone : Stone
                 // Return to the original state
                 Time.timeScale = 1.0f;
                 Time.fixedDeltaTime = fixedDeltaTime * Time.timeScale;
-                
+
                 // Disable ray interactor and Destory reticle
                 if (
-                    rayIneteractController.GetComponent<XRRayInteractor>().isActiveAndEnabled == true
-                    && rayIneteractController.GetComponent<XRInteractorLineVisual>().isActiveAndEnabled == true
+                    rayIneteractController.GetComponent<XRRayInteractor>().isActiveAndEnabled
+                        == true
+                    && rayIneteractController
+                        .GetComponent<XRInteractorLineVisual>()
+                        .isActiveAndEnabled == true
                 )
                 {
                     rayIneteractController.GetComponent<XRRayInteractor>().enabled = false;
@@ -80,12 +81,13 @@ public class BoostStone : Stone
                 yield return new WaitForSeconds(1.0f);
                 rigid.useGravity = true;
                 yield return new WaitForSeconds(2.0f);
-                GetComponent<TrailRenderer>().enabled = false;                
+                GetComponent<TrailRenderer>().enabled = false;
 
                 yield break;
             }
-            
-            if (isCollidedAfterThrown) yield break;
+
+            if (isCollidedAfterThrown)
+                yield break;
 
             yield return null;
         }
@@ -104,7 +106,8 @@ public class BoostStone : Stone
         // Add Ray Interactor
         if (
             rayIneteractController.GetComponent<XRRayInteractor>().isActiveAndEnabled == false
-            && rayIneteractController.GetComponent<XRInteractorLineVisual>().isActiveAndEnabled == false
+            && rayIneteractController.GetComponent<XRInteractorLineVisual>().isActiveAndEnabled
+                == false
         )
         {
             rayIneteractController.GetComponent<XRRayInteractor>().enabled = true;
@@ -115,7 +118,7 @@ public class BoostStone : Stone
         reticle = Instantiate(reticlePrefab, new Vector3(0, -100.0f, 0), Quaternion.identity);
 
         // Raycast and boost the stone towards raycashit
-        while( controller.selectActionValue.action.ReadValue<float>() > 0.9f )
+        while (controller.selectActionValue.action.ReadValue<float>() > 0.9f)
         {
             timer += Time.deltaTime / Time.timeScale;
 
@@ -147,7 +150,8 @@ public class BoostStone : Stone
                 reticle.transform.position = new Vector3(0, -100.0f, 0);
             }
 
-            if (timer >= timeLimit || isCollidedAfterThrown) yield break;
+            if (timer >= timeLimit || isCollidedAfterThrown)
+                yield break;
 
             yield return null;
         }
@@ -170,12 +174,14 @@ public class BoostStone : Stone
         base.Throw(targetPostion, angle, gravity);
 
         // Wait for reaching the highest point
-        yield return new WaitForSeconds(CalculateHighestPointTime(rigid.velocity) + Random.Range(-0.1f, 0.1f));
-        
+        yield return new WaitForSeconds(
+            CalculateHighestPointTime(rigid.velocity) + Random.Range(-0.1f, 0.1f)
+        );
+
         // Gravity off, Slow down stone
         rigid.useGravity = false;
         rigid.velocity = Vector3.Scale(rigid.velocity, new Vector3(0.1f, 0.1f, 0.1f));
-        
+
         // Show laser towards player shortly
         LineRenderer _linRender = GetComponent<LineRenderer>();
         _linRender.enabled = true;
@@ -198,15 +204,18 @@ public class BoostStone : Stone
         GetComponent<TrailRenderer>().enabled = true;
 
         // Turn on gravity, Turn off trail
-        yield return new WaitForSeconds(1.0f);        
+        yield return new WaitForSeconds(1.0f);
         rigid.useGravity = true;
         GetComponent<TrailRenderer>().enabled = false;
 
         yield break;
     }
 
-    private void OnCollisionEnter(Collision other)
+    protected new void OnCollisionEnter(Collision other)
     {
-        if (isThrown) isCollidedAfterThrown = true;
+        base.OnCollisionEnter(other);
+
+        if (isThrown)
+            isCollidedAfterThrown = true;
     }
 }

@@ -221,7 +221,7 @@ public class GameManager : MonoBehaviour
 
     private void InitSpaceship()
     {
-        EnemySpaceShip spaceship = enemySpawnArea.GetComponent<EnemySpaceShip>();
+        EnemySpaceship spaceship = enemySpawnArea.GetComponent<EnemySpaceship>();
         spaceship.SetHealthBar();
         spaceship.transform
             .DOMove(spaceship.attackPoints[0].position, 1f)
@@ -239,11 +239,15 @@ public class GameManager : MonoBehaviour
         StopAllCoroutines();
 
         UnityEngine.SceneManagement.SceneManager.LoadScene("GameOver");
-        // gameStateNoticeText.text = "Game Over";
-        // Sequence mySquence = DOTween
-        //     .Sequence()
-        //     .Append(gameStateNoticeText.DOColor(new Color(1, 0, 0, 0), 0))
-        //     .Append(gameStateNoticeText.DOFade(1f, 2f).SetEase(Ease.InQuart));
+    }
+
+    public void GameClear()
+    {
+        CancelInvoke(nameof(SpawnEnemy));
+
+        StopAllCoroutines();
+
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Ending");
     }
 
     private static T GetRandomElement<T>(T[] array)

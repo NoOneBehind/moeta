@@ -116,10 +116,14 @@ public class Enemy_temp : Health
 
         var isFinal = gameManager.currentLevel == gameManager.maxLevel;
 
-        if (gameManager.leftEnemyCount == 0 && gameManager.currentLevel < gameManager.maxLevel)
+        if (gameManager.leftEnemyCount == 0 && !isFinal)
         {
             gameManager.currentLevel += 1;
             gameManager.LevelStart();
+        }
+        else if (isFinal)
+        {
+            gameManager.GameClear();
         }
 
         StopAllCoroutines();
@@ -128,7 +132,6 @@ public class Enemy_temp : Health
 
         var destroyDelayTime = isFinal ? 0 : 3;
 
-        Debug.Log(gameObject.name);
         Destroy(healthBar.gameObject, destroyDelayTime);
         Destroy(gameObject, destroyDelayTime);
     }

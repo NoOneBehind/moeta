@@ -4,6 +4,8 @@ using DG.Tweening;
 
 public class Stone : MonoBehaviour
 {
+    [SerializeField]
+    private int damage = 10;
     protected Vector3 targetPostion;
     protected Rigidbody rigid;
 
@@ -74,7 +76,7 @@ public class Stone : MonoBehaviour
             + d * Vector3.Scale(currentVel, new Vector3(1f, 0f, 1f)).normalized;
     }
 
-    private void OnCollisionEnter(Collision other)
+    protected void OnCollisionEnter(Collision other)
     {
         if (
             other.gameObject.CompareTag("Enemy")
@@ -86,7 +88,7 @@ public class Stone : MonoBehaviour
 
             if (targetHealth != null)
             {
-                targetHealth.TakeDamage(10);
+                targetHealth.TakeDamage(damage);
             }
 
             // just for collision test

@@ -2,17 +2,37 @@ using System.Collections;
 using UnityEngine;
 using DG.Tweening;
 
-public class EnemySpaceShip : Enemy_temp
+public class EnemySpaceship : Enemy_temp
 {
     [SerializeField]
     public Transform[] attackPoints;
+
+    [SerializeField]
+    private GameObject mommyStonePrefab;
+
+    [SerializeField]
+    private GameObject boostStonePrefab;
 
     public IEnumerator MoveAndAttack()
     {
         while (true)
         {
             var targetPosition = attackPoints[Random.Range(0, attackPoints.Length)].position;
-            transform.DOMove(targetPosition, 0.3f);
+            var randomSeed = Random.Range(0f, 10f);
+            DOTween
+                .Sequence()
+                .Append(transform.DOMove(targetPosition, 0.3f))
+                .AppendCallback(() =>
+                {
+                    if (randomSeed > 5)
+                    {
+                        attacking.BoostAttack(boostStonePrefab, Random.Range(5f, 10f));
+                    }
+                    else
+                    {
+                        attacking.MommyAttack(mommyStonePrefab, Random.Range(5f, 10f));
+                    }
+                });
             yield return new WaitForSeconds(minimumMoveInterval + Random.Range(0f, 2f));
         }
     }

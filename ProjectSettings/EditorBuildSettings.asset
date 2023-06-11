@@ -18,6 +18,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Main Scene - Hoon.unity
     guid: 11055dc5a42744fdfaacadad1e19790e
   - enabled: 1
+    path: Assets/Scenes/EndingScene/Ending.unity
+    guid: 7624a02990ae1414cab82614dd595101
+  - enabled: 1
     path: Assets/Scenes/EndingScene/GameOver.unity
     guid: 5e50671809e53f342abe7abab087e935
   m_configObjects:

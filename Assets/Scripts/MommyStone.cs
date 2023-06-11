@@ -8,16 +8,22 @@ public class MommyStone : Stone
 {
     [SerializeField]
     private GameObject babyStonePrefab;
+
     [SerializeField]
     private GameObject explosionPrefab;
+
     [SerializeField]
     private GameObject reticlePrefab;
+
     [SerializeField]
     private int maxBabyNum = 20;
+
     [SerializeField]
     private int minBabyNum = 3;
+
     [SerializeField]
     private float maxLandingSize = 10.0f;
+
     [SerializeField]
     private float timeLimit = 2.0f;
     private GameObject rightController;
@@ -50,10 +56,7 @@ public class MommyStone : Stone
     {
         while (true)
         {
-            if (
-                controller.selectActionValue.action.ReadValue<float>() > 0.9f
-                && isSlowed == false
-            )
+            if (controller.selectActionValue.action.ReadValue<float>() > 0.9f && isSlowed == false)
             {
                 yield return StartCoroutine(SlowTime());
 
@@ -72,7 +75,8 @@ public class MommyStone : Stone
                 yield break;
             }
 
-            if (isCollidedAfterThrown) yield break;
+            if (isCollidedAfterThrown)
+                yield break;
 
             yield return null;
         }
@@ -111,7 +115,8 @@ public class MommyStone : Stone
                 yield break;
             }
 
-            if (timer >= timeLimit || isCollidedAfterThrown) yield break;
+            if (timer >= timeLimit || isCollidedAfterThrown)
+                yield break;
 
             yield return null;
         }
@@ -133,14 +138,10 @@ public class MommyStone : Stone
         float originalAngle = Mathf.Atan2(
             originalVel.y,
             Vector3.Scale(originalVel, new Vector3(1f, 0f, 1f)).magnitude
-            );
+        );
 
         // Add explosion effect
-        GameObject explosion = Instantiate(
-            explosionPrefab,
-            transform.position,
-            transform.rotation
-        );
+        GameObject explosion = Instantiate(explosionPrefab, transform.position, transform.rotation);
         Destroy(explosion, 2.0f);
 
         // Instantiate baby stones
@@ -169,10 +170,9 @@ public class MommyStone : Stone
                             Random.Range(-0.5f * landingScale, 0.5f * landingScale),
                             Random.Range(-0.5f * landingScale, 0.5f * landingScale)
                         ),
-                originalAngle
+                    originalAngle
                 );
             }
-
             // Player baby stones' target is the original projectiles' landing point
             else
             {
@@ -197,7 +197,9 @@ public class MommyStone : Stone
         base.Throw(targetPostion, angle, gravity);
 
         // Wait for reaching the highest point
-        yield return new WaitForSeconds(CalculateHighestPointTime(rigid.velocity) + Random.Range(-0.1f, 0.1f));
+        yield return new WaitForSeconds(
+            CalculateHighestPointTime(rigid.velocity) + Random.Range(-0.1f, 0.1f)
+        );
 
         // Gravity off, Slow down stone
         rigid.useGravity = false;
@@ -227,8 +229,9 @@ public class MommyStone : Stone
         yield break;
     }
 
-    private void OnCollisionEnter(Collision other)
+    protected new void OnCollisionEnter(Collision other)
     {
-        if (isThrown) isCollidedAfterThrown = true;
+        if (isThrown)
+            isCollidedAfterThrown = true;
     }
 }

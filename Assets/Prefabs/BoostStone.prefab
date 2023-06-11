@@ -299,6 +299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59be16de1b308ad499d9d2954dcb33ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 20
   reticlePrefab: {fileID: 8038935571253214410, guid: 213901ac98083b348b611034b1a86a8f,
     type: 3}
   timeLimit: 2
