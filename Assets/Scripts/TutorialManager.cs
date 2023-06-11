@@ -3,11 +3,12 @@ using TMPro;
 using UnityEngine.UI;
 using System.Collections;
 using DG.Tweening;
-using UnityEngine.SceneManagement;
+using UnityEngine.XR.Interaction.Toolkit;
 
 
 public class TutorialManager : MonoBehaviour
 {
+    public XRSocketInteractor socketInteractor;
     public AudioClip alienShipTakeoffSound;
     public AudioClip forestafternoon;
     private AudioSource audioSource;
@@ -22,6 +23,7 @@ public class TutorialManager : MonoBehaviour
     private int stonesHit; 
     
     private TextMeshProUGUI popUpText;
+    private bool isShieldTutorialDone = false;
 
     private void Start()
     {
@@ -46,6 +48,26 @@ public class TutorialManager : MonoBehaviour
       popUpWindow.GetComponent<PopUpWindow>().ShowPopUp("자, 내가 돌을 다섯 번\n던질 테니 피해봐라!");
 
         Invoke("ThrowStone", 8f);
+    }
+
+    private IEnumerator ShowShieldTutorial()
+    {
+        yield return new WaitForSeconds(2.0f);
+
+        popUpWindow.SetActive(true);
+        popUpWindow.GetComponent<PopUpWindow>().ShowPopUp(
+            "이번엔 방패 사용법을 익혀보자 \n 오른손으로 방패의 손잡이를 잡고 \n 왼쪽 손등에 고정시켜봐라!"
+        );
+        yield return StartCoroutine(CheckShieldAttached());
+
+        popUpWindow.GetComponent<PopUpWindow>().ShowPopUp(
+            "이번에도 돌을 다섯 번 던질건데, \n 방패로 막아봐라!"
+        );
+        stonesThrown = 0;
+        isShieldTutorialDone = true;
+        Invoke("ThrowStone", 8f);
+
+        yield break;
     }
 
     private void ShowSecondPopUp()
@@ -109,11 +131,14 @@ public class TutorialManager : MonoBehaviour
             stonesThrown++;
             Invoke("ThrowStone", 2f);
         }
+        else if (!isShieldTutorialDone)
+        {
+            StartCoroutine(ShowShieldTutorial());
+            //Invoke("ShowThiredPopUp",3f);
+        }
         else
         {
             Invoke("ShowSecondPopUp", 2f);
-            //Invoke("ShowThiredPopUp",3f);
-
         }
     }
 
@@ -127,6 +152,17 @@ public class TutorialManager : MonoBehaviour
         if (stonesHit == 3)
         {
             Invoke("ShowThiredPopUp",3f);
+        }
+    }
+
+    private IEnumerator CheckShieldAttached()
+    {
+        while (true)
+        {
+            if (socketInteractor.hasSelection)
+                yield break;
+            else
+                yield return null;
         }
     }
 

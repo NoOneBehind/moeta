@@ -298,12 +298,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6adef65e4ac5a984db066a7530dd7d7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 10
   babyStonePrefab: {fileID: 1641139492461932871, guid: fc89e66d0967ba14885084919a5e4c28,
     type: 3}
   explosionPrefab: {fileID: 6768221365401801652, guid: d87bcac1c51831047b7f4908f195c415,
     type: 3}
   reticlePrefab: {fileID: 9176069938095603063, guid: 4905bdfd0cded584d8237132846e87c5,
     type: 3}
+  maxBabyNum: 20
+  minBabyNum: 3
+  maxLandingSize: 10
+  timeLimit: 2
 --- !u!120 &-3300479845243370726
 LineRenderer:
   m_ObjectHideFlags: 0
