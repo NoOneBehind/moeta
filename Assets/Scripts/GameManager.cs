@@ -157,7 +157,6 @@ public class GameManager : MonoBehaviour
                 .AppendCallback(() =>
                 {
                     InitSpaceship();
-                    InvokeRepeating(nameof(SpawnEnemy), 2f, spawnInterval[currentLevel - 1]);
                 });
         }
     }
