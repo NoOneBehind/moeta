@@ -36,6 +36,7 @@ public class MommyStone : Stone
     private float fixedDeltaTime;
     private Image filer;
     private GameObject player;
+    private StoneSelector selector;
 
     public void StartSplit()
     {
@@ -47,6 +48,8 @@ public class MommyStone : Stone
         filer = GameObject.Find("Filter2").GetComponent<Image>();
         player = GameObject.Find("Main Camera");
 
+        selector = GetComponent<StoneSelector>();
+
         isThrown = true;
 
         StartCoroutine(StoneThrown());
@@ -56,7 +59,11 @@ public class MommyStone : Stone
     {
         while (true)
         {
-            if (controller.selectActionValue.action.ReadValue<float>() > 0.9f && isSlowed == false)
+            if (
+                controller.selectActionValue.action.ReadValue<float>() > 0.9f
+                && isSlowed == false
+                && selector.onSelecting == false
+            )
             {
                 yield return StartCoroutine(SlowTime());
 

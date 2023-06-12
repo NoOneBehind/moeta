@@ -17,6 +17,7 @@ public class TutorialManager : MonoBehaviour
     public GameObject stonePrefab;
     public Transform target;
     public Transform spawnPoint;
+    private GameObject shield;
     private int stonesThrown;
     private bool canGrabStone;
     private bool tutorialComplete;
@@ -39,6 +40,8 @@ public class TutorialManager : MonoBehaviour
         audioSource.loop = true;
         audioSource.Play();
         Invoke("ShowFirstPopUp", 1f);
+
+        shield = GameObject.Find("Shield");
     }
 
     private void ShowFirstPopUp()
@@ -111,7 +114,8 @@ public class TutorialManager : MonoBehaviour
 
     filer.DOColor(Color.black, 3f);
     filer.DOFade(0, 1f);
-    yield return new WaitForSeconds(15f); // Wait for the fade out to finish
+    Destroy(shield, 3f);
+    yield return new WaitForSeconds(7f); // Wait for the fade out to finish
 
     UnityEngine.SceneManagement.SceneManager.LoadScene("Tutorial Scene2");
 

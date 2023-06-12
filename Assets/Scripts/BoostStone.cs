@@ -23,6 +23,7 @@ public class BoostStone : Stone
     private float fixedDeltaTime;
     private Image filer;
     private GameObject player;
+    private StoneSelector selector;
 
     public void StartBoost()
     {
@@ -35,6 +36,8 @@ public class BoostStone : Stone
         filer = GameObject.Find("Filter2").GetComponent<Image>();
         player = GameObject.Find("Main Camera");
 
+        selector = GetComponent<StoneSelector>();
+
         isThrown = true;
 
         StartCoroutine(StoneThrown());
@@ -44,7 +47,11 @@ public class BoostStone : Stone
     {
         while (true)
         {
-            if (controller.selectActionValue.action.ReadValue<float>() > 0.9f && isSlowed == false)
+            if (
+                controller.selectActionValue.action.ReadValue<float>() > 0.9f
+                && isSlowed == false
+                && selector.onSelecting == false
+            )
             {
                 yield return StartCoroutine(SlowTime());
 
@@ -187,6 +194,7 @@ public class BoostStone : Stone
         _linRender.enabled = true;
         _linRender.positionCount = 2;
         player = GameObject.Find("Main Camera");
+        Vector3 dir = player.transform.position - transform.position;
         _linRender.SetPosition(1, player.transform.position - new Vector3(0f, 0.05f, 0f));
         timer = 0f;
         while (timer < 1f)
@@ -198,7 +206,6 @@ public class BoostStone : Stone
         _linRender.enabled = false;
 
         // Boost towards player
-        Vector3 dir = player.transform.position - transform.position;
         rigid.velocity = 40 * dir.normalized;
         Debug.Log("Boosted");
         GetComponent<TrailRenderer>().enabled = true;
