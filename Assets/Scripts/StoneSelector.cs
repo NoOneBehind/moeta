@@ -7,7 +7,9 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class StoneSelector : MonoBehaviour
 {
     [SerializeField]
-    private int currentStoneMode;
+    public int currentStoneMode;
+    [SerializeField]
+    private int maxSpecialStone = 10;
     [SerializeField]
     private GameObject normalStone;
     [SerializeField]
@@ -20,11 +22,13 @@ public class StoneSelector : MonoBehaviour
     private GameObject rightController;
     private GameObject rayIneteractController;
     private ActionBasedController controller;
-    private XRDirectInteractor directInteractor;
+    private IXRSelectInteractor directInteractor;
     private XRRayInteractor rayInteractor;
     private XRInteractorLineVisual lineVisual;
 
     private GameObject canvas;
+    private GameObject mommyButton;
+    private GameObject mommyButtonImage;
     private Canvas selectUICanvas;
 
     void Start()
@@ -37,13 +41,19 @@ public class StoneSelector : MonoBehaviour
         rayIneteractController = GameObject.Find("LeftRayInteractController");
         controller = rightController.GetComponent<ActionBasedController>();
 
-        directInteractor = rightController.GetComponent<XRDirectInteractor>();
+        interactionManager
+            = GameObject.Find("XR Interaction Manager").GetComponent<XRInteractionManager>();
+
+        directInteractor = rightController.GetComponent<IXRSelectInteractor>();
         rayInteractor = rayIneteractController.GetComponent<XRRayInteractor>();
         lineVisual = rayIneteractController.GetComponent<XRInteractorLineVisual>();
 
         canvas = gameObject.transform.GetChild(0).gameObject;
         selectUICanvas = canvas.GetComponent<Canvas>();
         selectUICanvas.worldCamera = Camera.main;
+
+        mommyButton = canvas.transform.GetChild(2).gameObject;
+        mommyButtonImage = mommyButton.transform.GetChild(0).gameObject;
 
         StartCoroutine(SelectUIopen());
     }
@@ -60,14 +70,30 @@ public class StoneSelector : MonoBehaviour
                 lineVisual.enabled = false;
             }
 
-            while(controller.activateAction.action.ReadValue<float>() > 0.9f)
+            // When triggered && current level >= 2
+            while(
+                controller.activateAction.action.ReadValue<float>() > 0.9f
+                && GameManager.Instance.currentLevel != 1
+            )
             {
+                // Turn on UI
                 if (!selectUICanvas.enabled)
                     selectUICanvas.enabled = true;
                 if (!rayInteractor.enabled && !lineVisual.enabled)
                 {
                     rayInteractor.enabled = true;
                     lineVisual.enabled = true;
+                }
+
+                if (GameManager.Instance.currentLevel == 2)
+                {
+                    mommyButton.GetComponent<Button>().enabled = false;
+                    mommyButtonImage.GetComponent<Image>().enabled = false;
+                }
+                else
+                {
+                    mommyButton.GetComponent<Button>().enabled = true;
+                    mommyButtonImage.GetComponent<Image>().enabled = true;
                 }
                 yield return null;
             }
@@ -85,7 +111,8 @@ public class StoneSelector : MonoBehaviour
                 transform.position,
                 transform.rotation
             );
-            interactionManager.SelectEnter(directInteractor, switchedStone.GetComponent<XRGrabInteractable>());
+            switchedStone.GetComponent<StoneSelector>().currentStoneMode = 0;
+            interactionManager.SelectEnter(directInteractor, switchedStone.GetComponent<IXRSelectInteractable>());
             Destroy(gameObject);
         }
     }
@@ -100,7 +127,8 @@ public class StoneSelector : MonoBehaviour
                 transform.position,
                 transform.rotation
             );
-            interactionManager.SelectEnter(directInteractor, switchedStone.GetComponent<XRGrabInteractable>());
+            switchedStone.GetComponent<StoneSelector>().currentStoneMode = 1;
+            interactionManager.SelectEnter(directInteractor, switchedStone.GetComponent<IXRSelectInteractable>());
             Destroy(gameObject);
         }
     }
@@ -115,7 +143,8 @@ public class StoneSelector : MonoBehaviour
                 transform.position,
                 transform.rotation
             );
-            interactionManager.SelectEnter(directInteractor, switchedStone.GetComponent<XRGrabInteractable>());
+            switchedStone.GetComponent<StoneSelector>().currentStoneMode = 2;
+            interactionManager.SelectEnter(directInteractor, switchedStone.GetComponent<IXRSelectInteractable>());
             Destroy(gameObject);
         }
     }

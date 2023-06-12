@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 6053163833595868433}
   - component: {fileID: 3726300873700110722}
   m_Layer: 0
-  m_Name: StoneRoot
+  m_Name: NormalStone
   m_TagString: stone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -471,10 +471,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentStoneMode: 0
+  maxSpecialStone: 0
   normalStone: {fileID: 1641139492461932871}
   boostStone: {fileID: 1641139492461932871, guid: db9ae18bc92fed54394929302dd10dd6,
     type: 3}
-  mommyStone: {fileID: 1641139492461932871, guid: fc89e66d0967ba14885084919a5e4c28,
+  mommyStone: {fileID: 1641139492461932871, guid: 9bcd7e732f106a3498abdde0501ef842,
     type: 3}
 --- !u!1 &3855020491681599885
 GameObject:
@@ -1484,7 +1485,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8862443239905410730}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
   m_Camera: {fileID: 0}
