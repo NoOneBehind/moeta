@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.XR.Interaction.Toolkit;
 using DG.Tweening;
 
 public class Stone : MonoBehaviour
@@ -9,14 +8,10 @@ public class Stone : MonoBehaviour
     private int damage = 10;
     protected Vector3 targetPostion;
     protected Rigidbody rigid;
-    private GameObject leftController;
-    private ActionBasedController leftActionBasedController;
 
     void Awake()
     {
         rigid = GetComponent<Rigidbody>();
-        leftController = GameObject.Find("LeftHand Controller");
-        leftActionBasedController = leftController.GetComponent<ActionBasedController>();
     }
 
     public void Throw(Vector3 targetPostion, float angle, float gravity = 9.81f)
@@ -123,11 +118,6 @@ public class Stone : MonoBehaviour
         if (other.gameObject.CompareTag("Terrain"))
         {
             Destroy(gameObject, 1f);
-        }
-            
-        if (other.gameObject.CompareTag("Shield"))
-        {
-            leftActionBasedController.SendHapticImpulse(1.0f, 0.15f);
         }
     }
 }

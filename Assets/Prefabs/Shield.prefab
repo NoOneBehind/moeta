@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 9078545983115369680}
   - component: {fileID: 6353961797846742340}
   - component: {fileID: 7930360704896341429}
+  - component: {fileID: 332752272157852352}
   m_Layer: 0
   m_Name: Shield
   m_TagString: Shield
@@ -267,3 +268,15 @@ MonoBehaviour:
   m_StartingSingleGrabTransformers: []
   m_StartingMultipleGrabTransformers: []
   m_AddDefaultGrabTransformers: 1
+--- !u!114 &332752272157852352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1321014256807036269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 670b198eb12729e4aa2b6e7db52a7298, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

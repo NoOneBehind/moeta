@@ -26,6 +26,7 @@ public class TutorialManager : MonoBehaviour
     private TextMeshProUGUI popUpText;
     private bool isShieldTutorialDone = false;
     public bool onTutorial = true;
+    private bool onThrowingTutorial = false;
 
     private void Start()
     {
@@ -83,6 +84,7 @@ public class TutorialManager : MonoBehaviour
         popUpWindow.SetActive(true);
         popUpWindow.GetComponent<PopUpWindow>().ShowPopUp("잘했다.\n 이제 상자의 돌을 집어 바위에 던져!\n  세 개를 맞춰보거라!");
 
+        onThrowingTutorial = true;
         canGrabStone = true;
         stonesHit = 0;
     }
@@ -157,7 +159,8 @@ public class TutorialManager : MonoBehaviour
         if (tutorialComplete)
             return;
 
-        stonesHit++;
+        if (onThrowingTutorial)
+            stonesHit++;
 
         if (stonesHit == 3)
         {

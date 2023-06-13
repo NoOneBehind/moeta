@@ -287,7 +287,7 @@ MonoBehaviour:
     type: 3}
   forestafternoon: {fileID: 8300000, guid: 016b21a80344eaf4c80d63a12ef6ee6d, type: 3}
   popUpWindow: {fileID: 477288598}
-  stonePrefab: {fileID: 1641139492461932871, guid: 74172c63281f96f40a5153a7121cc890,
+  stonePrefab: {fileID: 1641139492461932871, guid: 720106037a7d93049971fc028a53acff,
     type: 3}
   target: {fileID: 3986740949653040169}
   spawnPoint: {fileID: 1543532258}
@@ -2160,7 +2160,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 812275847}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 26.82, y: 9.5, z: 5.22}
+  m_LocalPosition: {x: 26.82, y: 9.35, z: 5.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
