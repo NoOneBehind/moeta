@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
     public int spawnedEnemyCount;
     public int leftEnemyCount;
     public int deadEnemyCount;
-    public int currentLevel;
+    public int currentLevel = 0;
 
     private Dictionary<GameObject, bool> visitedPointsLevel3 = new Dictionary<GameObject, bool>();
 
@@ -91,6 +91,10 @@ public class GameManager : MonoBehaviour
 
     public void LevelStart()
     {
+        // Reset special stone counts
+        StoneSelector.leftBoostStones = StoneSelector.maxSpecialStone;
+        StoneSelector.leftMommyStones = StoneSelector.maxSpecialStone;
+
         spawnedEnemyCount = 0;
         deadEnemyCount = 0;
         leftEnemyCount = totalEnemyCount[currentLevel - 1];

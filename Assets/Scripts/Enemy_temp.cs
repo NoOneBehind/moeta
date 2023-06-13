@@ -92,7 +92,7 @@ public class Enemy_temp : Health
         // attack
         while (!isDead)
         {
-            attacking.Attack(stonePrefab, Random.Range(30f, 60f));
+            attacking.Attack(stonePrefab, Random.Range(30f, 45f));
             yield return new WaitForSeconds(minimumAttackInterval + Random.Range(0f, 3f));
             if (isDead)
                 yield break;

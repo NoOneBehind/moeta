@@ -205,13 +205,13 @@ public class MommyStone : Stone
 
         // Wait for reaching the highest point
         yield return new WaitForSeconds(
-            CalculateHighestPointTime(rigid.velocity) + Random.Range(-0.1f, 0.1f)
+            CalculateHighestPointTime(rigid.velocity) + Random.Range(-0.2f, -0.1f)
         );
 
         // Gravity off, Slow down stone
         rigid.useGravity = false;
         Vector3 originalVel = rigid.velocity;
-        rigid.velocity = Vector3.Scale(rigid.velocity, new Vector3(0.1f, 0.1f, 0.1f));
+        rigid.velocity = Vector3.Scale(rigid.velocity, new Vector3(0.05f, 0.05f, 0.05f));
 
         // Show laser towards player shortly
         LineRenderer _linRender = GetComponent<LineRenderer>();

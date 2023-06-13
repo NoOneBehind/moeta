@@ -182,7 +182,7 @@ public class BoostStone : Stone
 
         // Wait for reaching the highest point
         yield return new WaitForSeconds(
-            CalculateHighestPointTime(rigid.velocity) + Random.Range(-0.1f, 0.1f)
+            CalculateHighestPointTime(rigid.velocity) + Random.Range(-0.1f, 0f)
         );
 
         // Gravity off, Slow down stone

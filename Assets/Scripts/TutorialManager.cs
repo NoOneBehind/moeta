@@ -25,6 +25,7 @@ public class TutorialManager : MonoBehaviour
     
     private TextMeshProUGUI popUpText;
     private bool isShieldTutorialDone = false;
+    public bool onTutorial = true;
 
     private void Start()
     {
@@ -42,6 +43,8 @@ public class TutorialManager : MonoBehaviour
         Invoke("ShowFirstPopUp", 1f);
 
         shield = GameObject.Find("Shield");
+
+        onTutorial = true;
     }
 
     private void ShowFirstPopUp()
@@ -59,9 +62,11 @@ public class TutorialManager : MonoBehaviour
 
         popUpWindow.SetActive(true);
         popUpWindow.GetComponent<PopUpWindow>().ShowPopUp(
-            "이번엔 방패 사용법을 익혀보자 \n 오른손으로 방패의 손잡이를 잡고 \n 왼쪽 손등에 고정시켜봐라!"
+            "이번엔 방패 사용법을 익혀보자 \n 오른손으로 방패의 손잡이를 잡고 \n 왼쪽 손등에 고정시켜봐라!",
+            8f
         );
         yield return StartCoroutine(CheckShieldAttached());
+        yield return new WaitForSeconds(1f);
 
         popUpWindow.GetComponent<PopUpWindow>().ShowPopUp(
             "이번에도 돌을 다섯 번 던질건데, \n 방패로 막아봐라!"
@@ -76,7 +81,7 @@ public class TutorialManager : MonoBehaviour
     private void ShowSecondPopUp()
     {
         popUpWindow.SetActive(true);
-        popUpWindow.GetComponent<PopUpWindow>().ShowPopUp("잘했다. 이제 바위에 던져!\n  세 개를 맞춰보거라!");
+        popUpWindow.GetComponent<PopUpWindow>().ShowPopUp("잘했다.\n 이제 상자의 돌을 집어 바위에 던져!\n  세 개를 맞춰보거라!");
 
         canGrabStone = true;
         stonesHit = 0;
@@ -97,6 +102,7 @@ public class TutorialManager : MonoBehaviour
         }
     private void EndTutorial()
     {
+        onTutorial = false;
         audioSource.Stop();
         audioSource.PlayOneShot(alienShipTakeoffSound);
        StartCoroutine(BlinkAndFadeOut());
@@ -115,7 +121,7 @@ public class TutorialManager : MonoBehaviour
     filer.DOColor(Color.black, 3f);
     filer.DOFade(0, 1f);
     Destroy(shield, 3f);
-    yield return new WaitForSeconds(7f); // Wait for the fade out to finish
+    yield return new WaitForSeconds(15f); // Wait for the fade out to finish
 
     UnityEngine.SceneManagement.SceneManager.LoadScene("Tutorial Scene2");
 

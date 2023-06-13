@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 7930360704896341429}
   m_Layer: 0
   m_Name: Shield
-  m_TagString: Untagged
+  m_TagString: Shield
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99,8 +99,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.9753146, y: 1.5284432, z: 0.44296923}
-  m_Center: {x: 0.0608052, y: -0.070109904, z: 0.12953474}
+  m_Size: {x: 1.1695055, y: 1.5284432, z: 0.44296923}
+  m_Center: {x: 0.093653604, y: -0.070109904, z: 0.12953474}
 --- !u!136 &9078545983115369680
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -131,7 +131,8 @@ public class StoneSelector : MonoBehaviour
             // When triggered && current level >= 2
             while(
                 controller.activateAction.action.ReadValue<float>() > 0.9f
-                && GameManager.Instance.currentLevel != 1
+                && GameManager.Instance?.currentLevel != null
+                && GameManager.Instance?.currentLevel != 1
             )
             {
                 // Add filter, Slow time
@@ -147,7 +148,8 @@ public class StoneSelector : MonoBehaviour
                     rayInteractor.enabled = true;
                     lineVisual.enabled = true;
                 }
-                boostLeftText.text = leftBoostStones.ToString()
+                boostLeftText.text
+                    = "Boost Stone\n" + leftBoostStones.ToString()
                     + " / " + maxSpecialStone.ToString();
                 if (leftBoostStones > 0)
                     boostLeftText.color = Color.black;
@@ -155,17 +157,23 @@ public class StoneSelector : MonoBehaviour
                     boostLeftText.color = Color.red;
 
                 // Show mommy stone UI only on level 3
-                if (GameManager.Instance.currentLevel == 2)
+                if (
+                    GameManager.Instance?.currentLevel != null
+                    && GameManager.Instance?.currentLevel == 2
+                )
                 {
                     mommyButton.GetComponent<Button>().enabled = false;
+                    mommyButton.GetComponent<Image>().enabled = false;
                     mommyButtonImage.GetComponent<Image>().enabled = false;
                     mommyLeftText.enabled = false;
                 }
                 else
                 {
                     mommyButton.GetComponent<Button>().enabled = true;
+                    mommyButton.GetComponent<Image>().enabled = true;
                     mommyButtonImage.GetComponent<Image>().enabled = true;
-                    mommyLeftText.text = leftMommyStones.ToString()
+                    mommyLeftText.text
+                        = "Explosion Stone\n" + leftMommyStones.ToString()
                     + " / " + maxSpecialStone.ToString();
                     if (leftMommyStones > 0)
                         mommyLeftText.color = Color.black;

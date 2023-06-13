@@ -6,6 +6,11 @@ TagManager:
   tags:
   - Enemy
   - stone
+  - BabyStone
+  - Hand
+  - Box
+  - Terrain
+  - Shield
   layers:
   - Default
   - TransparentFX

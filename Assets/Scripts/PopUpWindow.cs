@@ -14,8 +14,10 @@ public class PopUpWindow : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void ShowPopUp(string text)
+    public void ShowPopUp(string text, float time = 5f)
     {
+        displayTime = time;
+
         // Set the text of the pop-up window
         popUpText.text = text;
 
