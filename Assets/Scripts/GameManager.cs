@@ -231,7 +231,7 @@ public class GameManager : MonoBehaviour
             .DOMove(spaceship.attackPoints[0].position, 1f)
             .OnComplete(() =>
             {
-                spaceship.GetComponent<BoxCollider>().enabled = true;
+                spaceship.GetComponent<MeshCollider>().enabled = true;
                 StartCoroutine(spaceship.MoveAndAttack());
             });
     }

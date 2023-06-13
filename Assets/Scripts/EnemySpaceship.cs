@@ -26,11 +26,11 @@ public class EnemySpaceship : Enemy_temp
                 {
                     if (randomSeed > 5)
                     {
-                        attacking.BoostAttack(boostStonePrefab, Random.Range(5f, 10f));
+                        attacking.BoostAttack(boostStonePrefab, Random.Range(5f, 10f), true);
                     }
                     else
                     {
-                        attacking.MommyAttack(mommyStonePrefab, Random.Range(5f, 10f));
+                        attacking.MommyAttack(mommyStonePrefab, Random.Range(5f, 10f), true);
                     }
                 });
             yield return new WaitForSeconds(minimumMoveInterval + Random.Range(0f, 2f));

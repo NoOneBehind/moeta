@@ -16,7 +16,10 @@ public class Shield : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("stone"))
+        GameObject stone = other.gameObject;
+        if (
+            stone.CompareTag("stone")
+            && stone.GetComponent<Rigidbody>().velocity.magnitude > 0.5)
         {
             leftActionBasedController.SendHapticImpulse(1.0f, 0.15f);
         }

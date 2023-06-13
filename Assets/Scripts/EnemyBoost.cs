@@ -27,7 +27,7 @@ public class EnemyBoost : Enemy_temp
         // attack
         while (!isDead)
         {
-            attacking.BoostAttack(boostStonePrefab, Random.Range(30f, 60f));
+            attacking.BoostAttack(boostStonePrefab, Random.Range(30f, 45f));
             yield return new WaitForSeconds(minimumAttackInterval + Random.Range(0f, 3f));
         }
     }

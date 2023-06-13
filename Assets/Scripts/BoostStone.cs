@@ -51,6 +51,7 @@ public class BoostStone : Stone
                 controller.selectActionValue.action.ReadValue<float>() > 0.9f
                 && isSlowed == false
                 && selector.onSelecting == false
+                && GameManager.Instance?.currentLevel > 1
             )
             {
                 yield return StartCoroutine(SlowTime());
@@ -176,7 +177,7 @@ public class BoostStone : Stone
         isBoosted = true;
     }
 
-    public IEnumerator EnemyThrowAndBoost(Vector3 targetPostion, float angle, float gravity = 9.81f)
+    public IEnumerator EnemyThrowAndBoost(Vector3 targetPostion, float angle, bool isSpaceship = false, float gravity = 9.81f)
     {
         base.Throw(targetPostion, angle, gravity);
 
@@ -199,10 +200,13 @@ public class BoostStone : Stone
         timer = 0f;
         while (timer < 1f)
         {
+            dir = player.transform.position - transform.position;
             _linRender.SetPosition(0, transform.position);
             timer += Time.deltaTime;
             yield return null;
         }
+        if (isSpaceship)
+            GetComponent<SphereCollider>().enabled = true;
         _linRender.enabled = false;
 
         // Boost towards player

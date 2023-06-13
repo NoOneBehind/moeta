@@ -199,7 +199,7 @@ public class MommyStone : Stone
         Destroy(gameObject);
     }
 
-    public IEnumerator EnemyThrowAndSplit(Vector3 targetPostion, float angle, float gravity = 9.81f)
+    public IEnumerator EnemyThrowAndSplit(Vector3 targetPostion, float angle, bool isSpaceship = false, float gravity = 9.81f)
     {
         base.Throw(targetPostion, angle, gravity);
 
@@ -226,6 +226,8 @@ public class MommyStone : Stone
             timer += Time.deltaTime;
             yield return null;
         }
+        if (isSpaceship)
+            GetComponent<SphereCollider>().enabled = true;
         _linRender.enabled = false;
 
         // Split

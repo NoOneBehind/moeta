@@ -107,7 +107,10 @@ public class Enemy_temp : Health
             animator?.SetTrigger("isDead");
         isDead = true;
 
-        GetComponent<BoxCollider>().enabled = false;
+        if (GetComponent<BoxCollider>() != null)
+            GetComponent<BoxCollider>().enabled = false;
+        if (GetComponent<MeshCollider>() != null)
+            GetComponent<MeshCollider>().enabled = false;
         if (agent != null)
             agent.enabled = false;
         var moving = GetComponent<Moving>();

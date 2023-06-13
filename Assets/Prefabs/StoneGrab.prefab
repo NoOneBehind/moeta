@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 6053163833595868433}
   m_Layer: 0
   m_Name: StoneGrab
-  m_TagString: Untagged
+  m_TagString: stone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -272,6 +272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da84a24642077d143b118f7a862a6d43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 10
 --- !u!135 &6053163833595868433
 SphereCollider:
   m_ObjectHideFlags: 0

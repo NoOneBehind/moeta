@@ -509,7 +509,7 @@ MonoBehaviour:
   - {fileID: 0}
   minimumMoveInterval: 3
   rotateSpeed: 200
-  stonePrefab: {fileID: 1641139492461932871, guid: 74172c63281f96f40a5153a7121cc890,
+  stonePrefab: {fileID: 1641139492461932871, guid: 720106037a7d93049971fc028a53acff,
     type: 3}
   minimumAttackInterval: 6
   isDead: 0

@@ -26,7 +26,7 @@ public class Attacking : MonoBehaviour
         _stone.Throw(player.transform.position, throwAngle);
     }
 
-    public void BoostAttack(GameObject boostStonePrefab, float throwAngle)
+    public void BoostAttack(GameObject boostStonePrefab, float throwAngle, bool isSpaceship = false)
     {
         player = GameObject.Find("Main Camera");
         GameObject boostStone = Instantiate(
@@ -35,11 +35,13 @@ public class Attacking : MonoBehaviour
             transform.rotation,
             enemyStones
         );
+        if (isSpaceship)
+            boostStone.GetComponent<SphereCollider>().enabled = false;
         BoostStone _boostStone = boostStone.GetComponent<BoostStone>();
-        StartCoroutine(_boostStone.EnemyThrowAndBoost(player.transform.position, throwAngle));
+        StartCoroutine(_boostStone.EnemyThrowAndBoost(player.transform.position, throwAngle, isSpaceship));
     }
 
-    public void MommyAttack(GameObject mommyStonePrefab, float throwAngle)
+    public void MommyAttack(GameObject mommyStonePrefab, float throwAngle, bool isSpaceship = false)
     {
         player = GameObject.Find("Main Camera");
         GameObject mommyStone = Instantiate(
@@ -48,7 +50,9 @@ public class Attacking : MonoBehaviour
             transform.rotation,
             enemyStones
         );
+        if (isSpaceship)
+            mommyStone.GetComponent<SphereCollider>().enabled = false;
         MommyStone _mommyStone = mommyStone.GetComponent<MommyStone>();
-        StartCoroutine(_mommyStone.EnemyThrowAndSplit(player.transform.position, throwAngle));
+        StartCoroutine(_mommyStone.EnemyThrowAndSplit(player.transform.position, throwAngle, isSpaceship));
     }
 }
